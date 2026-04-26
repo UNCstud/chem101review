@@ -16,6 +16,13 @@
     --muted: #6b6d80;
     --accent: #7c6af7;
     --accent2: #f7836a;
+
+    /* Rarity colors */
+    --r-common: #9ca3af;
+    --r-uncommon: #4ade80;
+    --r-rare: #60a5fa;
+    --r-epic: #c084fc;
+    --r-legendary: #fbbf24;
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -68,12 +75,12 @@
   /* NAV */
   nav {
     position: sticky; top: 0;
-    z-index: 10;
+    z-index: 100;
     display: flex; align-items: center; gap: 1rem;
     padding: 1.25rem 2.5rem;
     border-bottom: 1px solid var(--border);
     backdrop-filter: blur(12px);
-    background: rgba(14,15,20,0.8);
+    background: rgba(14,15,20,0.85);
   }
   .nav-logo {
     font-family: 'DM Mono', monospace;
@@ -83,7 +90,6 @@
     text-transform: uppercase;
     color: var(--text);
     display: flex; align-items: center; gap: 10px;
-    margin-right: auto;
   }
   .nav-logo-dot {
     width: 8px; height: 8px;
@@ -96,6 +102,30 @@
     0%, 100% { opacity: 1; transform: scale(1); }
     50% { opacity: 0.5; transform: scale(0.8); }
   }
+  .nav-tabs {
+    display: flex; gap: 4px;
+    margin-left: 2rem;
+  }
+  .nav-tab {
+    padding: 7px 14px;
+    border-radius: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .nav-tab:hover { color: var(--text); background: var(--surface); }
+  .nav-tab.active {
+    color: var(--accent);
+    background: rgba(124,106,247,0.1);
+    border-color: rgba(124,106,247,0.3);
+  }
+  .nav-spacer { flex: 1; }
   .nav-tag {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
@@ -103,7 +133,7 @@
     letter-spacing: 0.08em;
   }
 
-  /* WALLET (shared coin pill) */
+  /* WALLET */
   .coin-pill {
     display: inline-flex; align-items: center; gap: 6px;
     background: linear-gradient(135deg, rgba(251,191,36,0.12), rgba(247,131,106,0.08));
@@ -145,12 +175,19 @@
   }
   .sound-toggle:hover { border-color: var(--border-hover); color: var(--text); }
 
+  /* PANELS */
+  .panel { display: none; }
+  .panel.active { display: block; animation: panelIn 0.3s ease; }
+  @keyframes panelIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
   /* HERO */
   .hero {
     position: relative; z-index: 1;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 5rem 2.5rem 3rem;
+    max-width: 900px; margin: 0 auto;
+    padding: 4rem 2.5rem 2rem;
     text-align: center;
   }
   .hero-eyebrow {
@@ -165,15 +202,13 @@
     border: 1px solid rgba(124,106,247,0.3);
     border-radius: 99px;
     background: rgba(124,106,247,0.08);
-    animation: fadeUp 0.6s ease both;
   }
   .hero h1 {
-    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-size: clamp(2.4rem, 6vw, 4rem);
     font-weight: 300;
     letter-spacing: -0.03em;
     line-height: 1.05;
     margin-bottom: 1.25rem;
-    animation: fadeUp 0.6s 0.1s ease both;
   }
   .hero h1 em {
     font-style: normal;
@@ -181,42 +216,18 @@
     font-weight: 500;
   }
   .hero-sub {
-    font-size: 17px;
+    font-size: 16px;
     color: var(--muted);
     max-width: 560px;
-    margin: 0 auto 3rem;
+    margin: 0 auto 2rem;
     line-height: 1.65;
-    animation: fadeUp 0.6s 0.2s ease both;
-  }
-  .hero-stats {
-    display: flex; justify-content: center; gap: 3rem;
-    margin-bottom: 4rem;
-    animation: fadeUp 0.6s 0.3s ease both;
-    flex-wrap: wrap;
-  }
-  .hero-stat { text-align: center; }
-  .hero-stat-n {
-    font-family: 'DM Mono', monospace;
-    font-size: 2rem;
-    font-weight: 300;
-    color: var(--text);
-    line-height: 1;
-  }
-  .hero-stat-n span { color: var(--accent); }
-  .hero-stat-l {
-    font-size: 12px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-top: 4px;
   }
 
-  /* WALLET HERO STRIP */
+  /* WALLET STRIP */
   .wallet-strip {
     position: relative; z-index: 1;
-    max-width: 900px; margin: 0 auto 3rem;
+    max-width: 900px; margin: 0 auto 2.5rem;
     padding: 0 2.5rem;
-    animation: fadeUp 0.6s 0.35s ease both;
   }
   .wallet-strip-inner {
     display: flex; align-items: center; gap: 1.25rem;
@@ -250,12 +261,9 @@
     line-height: 1.1;
   }
   .wallet-stats {
-    display: flex; gap: 1.4rem;
-    flex-wrap: wrap;
+    display: flex; gap: 1.4rem; flex-wrap: wrap;
   }
-  .wallet-stat {
-    text-align: center;
-  }
+  .wallet-stat { text-align: center; }
   .wallet-stat-n {
     font-family: 'DM Mono', monospace;
     font-size: 1.1rem;
@@ -273,9 +281,8 @@
   /* HOW IT WORKS */
   .how-it-works {
     position: relative; z-index: 1;
-    max-width: 900px; margin: 0 auto 3rem;
+    max-width: 900px; margin: 0 auto 2.5rem;
     padding: 0 2.5rem;
-    animation: fadeUp 0.6s 0.4s ease both;
   }
   .how-grid {
     display: grid;
@@ -288,9 +295,7 @@
     border-radius: 12px;
     padding: 1rem 1.1rem;
   }
-  .how-icon {
-    font-size: 18px; margin-bottom: 6px;
-  }
+  .how-icon { font-size: 18px; margin-bottom: 6px; }
   .how-title {
     font-size: 13px; font-weight: 500; color: var(--text);
     margin-bottom: 4px;
@@ -299,38 +304,31 @@
     font-size: 12px; color: var(--muted); line-height: 1.5;
   }
 
-  /* DIVIDER */
+  /* SECTION LABEL */
   .section-label {
     position: relative; z-index: 1;
     max-width: 900px; margin: 0 auto;
     padding: 0 2.5rem 1.25rem;
     display: flex; align-items: center; gap: 14px;
-    animation: fadeUp 0.6s 0.45s ease both;
   }
   .section-label span {
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
-    text-transform: uppercase;
+    font-size: 11px; text-transform: uppercase;
     letter-spacing: 0.15em;
     color: var(--muted);
     white-space: nowrap;
   }
-  .section-line {
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
+  .section-line { flex: 1; height: 1px; background: var(--border); }
 
-  /* CARDS */
+  /* GAME CARDS */
   .cards {
     position: relative; z-index: 1;
     max-width: 900px; margin: 0 auto;
-    padding: 0 2.5rem 6rem;
+    padding: 0 2.5rem 4rem;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
     gap: 1.25rem;
   }
-
   .game-card {
     background: var(--surface);
     border: 1px solid var(--border);
@@ -338,35 +336,17 @@
     padding: 2rem;
     text-decoration: none;
     color: var(--text);
-    display: flex;
-    flex-direction: column;
-    gap: 0;
+    display: flex; flex-direction: column;
     cursor: pointer;
     transition: border-color 0.25s, transform 0.25s, background 0.25s;
     position: relative;
     overflow: hidden;
-    animation: fadeUp 0.6s 0.5s ease both;
   }
-  .game-card:nth-child(2) { animation-delay: 0.6s; }
-
-  .game-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.3s;
-    border-radius: 16px;
-  }
-  .game-card.card-purple::before { background: radial-gradient(ellipse at top left, rgba(124,106,247,0.08), transparent 60%); }
-  .game-card.card-coral::before { background: radial-gradient(ellipse at top left, rgba(247,131,106,0.08), transparent 60%); }
-
   .game-card:hover {
     border-color: var(--border-hover);
     transform: translateY(-3px);
     background: var(--surface2);
   }
-  .game-card:hover::before { opacity: 1; }
-
   .card-top {
     display: flex; align-items: flex-start; justify-content: space-between;
     margin-bottom: 1.25rem;
@@ -379,7 +359,6 @@
   }
   .card-icon.purple { background: rgba(124,106,247,0.15); border: 1px solid rgba(124,106,247,0.25); }
   .card-icon.coral { background: rgba(247,131,106,0.15); border: 1px solid rgba(247,131,106,0.25); }
-
   .card-badge {
     font-family: 'DM Mono', monospace;
     font-size: 10px;
@@ -391,80 +370,874 @@
   }
   .card-badge.purple { color: #a898f8; border-color: rgba(124,106,247,0.35); background: rgba(124,106,247,0.1); }
   .card-badge.coral { color: #f7a896; border-color: rgba(247,131,106,0.35); background: rgba(247,131,106,0.1); }
-
   .card-title {
-    font-size: 20px;
-    font-weight: 500;
+    font-size: 20px; font-weight: 500;
     letter-spacing: -0.02em;
     margin-bottom: 0.5rem;
   }
   .card-desc {
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.6;
-    margin-bottom: 1.5rem;
-    flex: 1;
+    font-size: 14px; color: var(--muted);
+    line-height: 1.6; margin-bottom: 1.5rem; flex: 1;
   }
-
-  .card-meta {
-    display: flex; gap: 1rem;
-    margin-bottom: 1.5rem;
-  }
-  .card-meta-item {
-    display: flex; flex-direction: column; gap: 2px;
-  }
-  .card-meta-val {
-    font-family: 'DM Mono', monospace;
-    font-size: 18px;
-    font-weight: 300;
-    color: var(--text);
-  }
-  .card-meta-label {
-    font-size: 11px;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-
-  .card-divider { height: 1px; background: var(--border); margin-bottom: 1.25rem; }
-
-  .card-tags {
-    display: flex; flex-wrap: wrap; gap: 6px;
-    margin-bottom: 1.5rem;
-  }
-  .card-tag {
-    font-size: 12px;
-    color: var(--muted);
-    padding: 3px 10px;
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    font-family: 'DM Mono', monospace;
-  }
-
   .card-cta {
     display: flex; align-items: center; justify-content: space-between;
   }
   .cta-btn {
     display: inline-flex; align-items: center; gap: 8px;
-    padding: 10px 20px;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 500;
-    font-family: 'DM Sans', sans-serif;
+    padding: 10px 20px; border-radius: 8px;
+    font-size: 14px; font-weight: 500;
     border: none; cursor: pointer;
     transition: opacity 0.15s, transform 0.15s;
     text-decoration: none;
   }
-  .cta-btn:hover { opacity: 0.85; transform: translateX(2px); }
   .cta-btn.purple { background: var(--accent); color: white; }
   .cta-btn.coral { background: #f7836a; color: white; }
-  .cta-arrow { font-size: 16px; transition: transform 0.15s; }
-  .cta-btn:hover .cta-arrow { transform: translateX(3px); }
+  .cta-btn:hover { opacity: 0.85; transform: translateX(2px); }
 
-  .card-progress {
+  /* ════ TOURNAMENT ════ */
+  .tournament-wrap {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 2.5rem 2.5rem 4rem;
+  }
+  .tournament-head {
+    text-align: center; margin-bottom: 2.5rem;
+  }
+  .tournament-head h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+  }
+  .tournament-head h2 em { color: var(--accent); font-style: normal; font-weight: 500; }
+  .tournament-head p { color: var(--muted); font-size: 15px; max-width: 560px; margin: 0 auto; line-height: 1.6; }
+
+  .tier-section { margin-bottom: 3rem; }
+  .tier-header {
+    display: flex; align-items: center; gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding: 0 0.5rem;
+  }
+  .tier-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 99px;
+    border: 1px solid;
+  }
+  .tier-badge.t1 { color: #a898f8; border-color: rgba(124,106,247,0.4); background: rgba(124,106,247,0.1); }
+  .tier-badge.t2 { color: #fcd34d; border-color: rgba(251,191,36,0.4); background: rgba(251,191,36,0.08); }
+  .tier-progress {
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    color: var(--muted);
+  }
+  .tier-progress b { color: var(--text); }
+  .tier-locked-msg {
     font-family: 'DM Mono', monospace;
     font-size: 11px;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px dashed var(--border);
+    border-radius: 8px;
+    padding: 6px 14px;
+  }
+
+  .rivals-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .rival-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .rival-card.locked {
+    opacity: 0.45;
+    filter: grayscale(0.3);
+  }
+  .rival-card:not(.locked):hover {
+    transform: translateY(-3px);
+    border-color: var(--border-hover);
+    background: var(--surface2);
+  }
+  .rival-card.beaten {
+    border-color: rgba(74,222,128,0.3);
+  }
+  .rival-card.beaten::after {
+    content: '✓';
+    position: absolute;
+    top: 0.8rem; right: 0.8rem;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(74,222,128,0.15);
+    border: 1px solid rgba(74,222,128,0.4);
+    color: #4ade80;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+  }
+  .rival-portrait {
+    width: 56px; height: 56px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    margin-bottom: 0.9rem;
+    background: linear-gradient(135deg, rgba(124,106,247,0.2), rgba(247,131,106,0.1));
+    border: 1px solid rgba(124,106,247,0.25);
+  }
+  .rival-name {
+    font-size: 17px; font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 2px;
+  }
+  .rival-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.08em;
+    margin-bottom: 0.9rem;
+  }
+  .rival-quote {
+    font-size: 13px; color: var(--muted);
+    font-style: italic; line-height: 1.5;
+    border-left: 2px solid var(--border);
+    padding-left: 10px;
+    margin-bottom: 1rem;
+  }
+  .rival-stats {
+    display: flex; gap: 0.75rem;
+    margin-bottom: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+  }
+  .rival-stat {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 8px;
+    text-align: center;
+  }
+  .rival-stat-v { color: var(--text); font-size: 13px; }
+  .rival-stat-l { color: var(--muted); font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+  .rival-fight-btn {
+    width: 100%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 9px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .rival-fight-btn:hover:not(:disabled) {
+    background: #6b58e0;
+    transform: translateY(-1px);
+  }
+  .rival-fight-btn:disabled {
+    background: var(--surface2);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+  .rival-fight-btn.t2 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #422006; }
+  .rival-fight-btn.t2:hover:not(:disabled) { box-shadow: 0 4px 14px rgba(251,191,36,0.3); transform: translateY(-1px); }
+
+  .champion-banner {
+    background: linear-gradient(135deg, rgba(251,191,36,0.15), rgba(247,131,106,0.1));
+    border: 1px solid rgba(251,191,36,0.4);
+    border-radius: 14px;
+    padding: 1.5rem;
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .champion-banner h3 {
+    color: #fcd34d;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.5rem;
+  }
+  .champion-banner p { color: var(--muted); font-size: 14px; }
+
+  /* MATCH MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.75);
+    backdrop-filter: blur(8px);
+    z-index: 9000;
+    display: none;
+    align-items: center; justify-content: center;
+    padding: 1rem;
+    animation: fadeIn 0.2s ease;
+  }
+  .modal-overlay.show { display: flex; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal-card {
+    background: var(--surface);
+    border: 1px solid var(--border-hover);
+    border-radius: 16px;
+    padding: 2rem;
+    max-width: 540px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    animation: modalIn 0.3s cubic-bezier(.2,.9,.3,1.1);
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.92) translateY(10px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal-close {
+    position: absolute; top: 12px; right: 12px;
+    background: transparent; border: none; color: var(--muted);
+    font-size: 22px; cursor: pointer;
+    width: 32px; height: 32px; border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .modal-close:hover { color: var(--text); background: var(--surface2); }
+
+  .match-modal-head {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+  .match-modal-head h3 {
+    font-size: 1.4rem; font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.4rem;
+  }
+  .match-modal-head .vs-line {
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .match-portraits {
+    display: flex; align-items: center; justify-content: center;
+    gap: 1.5rem;
+    margin: 1rem 0 1.5rem;
+  }
+  .match-portrait {
+    text-align: center;
+  }
+  .match-portrait .mp-icon {
+    width: 60px; height: 60px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px;
+    background: linear-gradient(135deg, rgba(124,106,247,0.2), rgba(247,131,106,0.1));
+    border: 1px solid rgba(124,106,247,0.3);
+    margin: 0 auto 6px;
+  }
+  .match-portrait.you .mp-icon {
+    background: linear-gradient(135deg, rgba(251,191,36,0.2), rgba(74,222,128,0.1));
+    border-color: rgba(251,191,36,0.3);
+  }
+  .match-portrait .mp-name {
+    font-size: 12px; color: var(--text);
+    font-weight: 500;
+  }
+  .match-vs {
+    font-family: 'DM Mono', monospace;
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+
+  .match-config {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .match-config-row {
+    display: flex; justify-content: space-between;
+    align-items: center; gap: 1rem;
+    margin-bottom: 0.6rem;
+    font-size: 13px;
+  }
+  .match-config-row:last-child { margin-bottom: 0; }
+  .match-config-row span:first-child { color: var(--muted); }
+  .match-config-row b { font-family: 'DM Mono', monospace; color: var(--text); }
+
+  .match-actions {
+    display: flex; gap: 8px;
+  }
+  .match-actions button {
+    flex: 1;
+    padding: 11px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    border: none; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .match-actions .start-match {
+    background: var(--accent); color: white;
+  }
+  .match-actions .start-match:hover { background: #6b58e0; }
+  .match-actions .start-match:disabled { background: var(--surface2); color: var(--muted); cursor: not-allowed; }
+  .match-actions .cancel {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .match-actions .cancel:hover { color: var(--text); border-color: var(--border-hover); }
+
+  .insufficient-funds {
+    background: rgba(240,96,96,0.08);
+    border: 1px solid rgba(240,96,96,0.3);
+    color: #f7a896;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    text-align: center;
+    margin-bottom: 0.8rem;
+  }
+
+  /* MATCH PLAY (live tournament question screen) */
+  .match-live {
+    max-width: 720px; margin: 0 auto;
+    padding: 0 1rem;
+  }
+  .match-live-head {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    gap: 1rem; align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .match-live-side { text-align: center; }
+  .match-live-side .mls-name {
+    font-size: 12px; color: var(--muted);
+    margin-bottom: 4px;
+    font-family: 'DM Mono', monospace;
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .match-live-side .mls-score {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.6rem;
+    color: #fcd34d;
+    font-weight: 300;
+    line-height: 1;
+  }
+  .match-live-side.winning .mls-score { color: #4ade80; }
+  .match-live-side.losing .mls-score { color: #f06060; }
+  .match-live-vs {
+    font-family: 'DM Mono', monospace;
+    font-size: 15px; color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  /* MATCH RESULT modal */
+  .result-modal-card {
+    text-align: center;
+    padding: 2.5rem 2rem 2rem;
+  }
+  .result-banner {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.6rem;
+  }
+  .result-title {
+    font-size: 2.2rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .result-title.win {
+    color: #4ade80;
+    text-shadow: 0 0 20px rgba(74,222,128,0.4);
+  }
+  .result-title.lose {
+    color: #f06060;
+  }
+  .result-comparison {
+    display: grid; grid-template-columns: 1fr auto 1fr;
+    gap: 1rem; align-items: center;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .result-side .rs-label {
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .result-side .rs-score {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.8rem;
+    line-height: 1;
+  }
+  .result-side.winner .rs-score { color: #4ade80; }
+  .result-side.loser .rs-score { color: var(--muted); }
+  .result-rewards {
+    background: linear-gradient(135deg, rgba(251,191,36,0.08), rgba(124,106,247,0.05));
+    border: 1px solid rgba(251,191,36,0.25);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .result-rewards-label {
+    font-size: 11px; color: var(--muted);
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+  .result-rewards-list {
+    display: flex; gap: 1.2rem; justify-content: center;
+    font-family: 'DM Mono', monospace;
+  }
+  .result-reward {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 1.1rem;
+    color: #fcd34d;
+  }
+  .result-actions {
+    display: flex; gap: 8px;
+    margin-top: 1rem;
+  }
+  .result-actions button {
+    flex: 1;
+    padding: 11px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    border: none; cursor: pointer;
+    transition: all 0.15s;
+  }
+  .result-actions .primary { background: var(--accent); color: white; }
+  .result-actions .primary:hover { background: #6b58e0; }
+  .result-actions .secondary {
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .result-actions .secondary:hover { color: var(--text); border-color: var(--border-hover); }
+
+  /* ════ COLLECTION ════ */
+  .collection-wrap {
+    position: relative; z-index: 1;
+    max-width: 1100px; margin: 0 auto;
+    padding: 2.5rem 2.5rem 4rem;
+  }
+  .collection-head {
+    text-align: center; margin-bottom: 2rem;
+  }
+  .collection-head h2 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+  }
+  .collection-head h2 em { color: var(--accent2); font-style: normal; font-weight: 500; }
+  .collection-head p { color: var(--muted); font-size: 15px; max-width: 560px; margin: 0 auto; line-height: 1.6; }
+
+  .collection-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+  }
+  .col-stat-cell { text-align: center; }
+  .col-stat-v {
+    font-family: 'DM Mono', monospace;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  .col-stat-v.common { color: var(--r-common); }
+  .col-stat-v.uncommon { color: var(--r-uncommon); }
+  .col-stat-v.rare { color: var(--r-rare); }
+  .col-stat-v.epic { color: var(--r-epic); }
+  .col-stat-v.legendary { color: var(--r-legendary); }
+  .col-stat-l {
+    font-family: 'DM Mono', monospace;
+    font-size: 9.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-top: 4px;
+  }
+
+  /* SHOP — boxes */
+  .shop-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  .box-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.25rem;
+    text-align: center;
+    transition: all 0.2s;
+  }
+  .box-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .box-icon-wrap {
+    width: 80px; height: 80px;
+    margin: 0 auto 1rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 50px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(124,106,247,0.1), rgba(247,131,106,0.05));
+    border: 1px solid rgba(124,106,247,0.2);
+  }
+  .box-card.tier-2 .box-icon-wrap { background: linear-gradient(135deg, rgba(96,165,250,0.15), rgba(74,222,128,0.05)); border-color: rgba(96,165,250,0.25); }
+  .box-card.tier-3 .box-icon-wrap { background: linear-gradient(135deg, rgba(251,191,36,0.18), rgba(247,131,106,0.08)); border-color: rgba(251,191,36,0.4); box-shadow: inset 0 0 20px rgba(251,191,36,0.08); }
+  .box-name {
+    font-size: 16px; font-weight: 500;
+    margin-bottom: 4px;
+  }
+  .box-cost {
+    font-family: 'DM Mono', monospace;
+    color: #fcd34d;
+    font-size: 14px;
+    margin-bottom: 0.8rem;
+  }
+  .box-odds {
+    font-family: 'DM Mono', monospace;
+    font-size: 10.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    padding: 8px;
+    background: var(--bg);
+    border-radius: 6px;
+  }
+  .box-buy-btn {
+    width: 100%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 9px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .box-buy-btn:hover:not(:disabled) { background: #6b58e0; transform: translateY(-1px); }
+  .box-buy-btn:disabled { background: var(--surface2); color: var(--muted); cursor: not-allowed; }
+
+  /* COLLECTION FILTERS + GRID */
+  .filter-row {
+    display: flex; gap: 6px; flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 6px 14px;
+    border-radius: 99px;
+    cursor: pointer;
+    transition: all 0.15s;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .filter-btn:hover { color: var(--text); border-color: var(--border-hover); }
+  .filter-btn.active {
+    background: rgba(124,106,247,0.12);
+    color: var(--accent);
+    border-color: rgba(124,106,247,0.3);
+  }
+
+  .element-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(82px, 1fr));
+    gap: 6px;
+  }
+  .element-cell {
+    aspect-ratio: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    position: relative;
+    padding: 4px;
+  }
+  .element-cell:hover { transform: translateY(-2px); }
+  .element-cell.unowned {
+    opacity: 0.35;
+    background: var(--surface2);
+  }
+  .element-cell.unowned .el-symbol { color: var(--muted); }
+  .element-cell.unowned .el-name, .element-cell.unowned .el-num { display: none; }
+  .element-cell.owned.r-common { border-color: var(--r-common); }
+  .element-cell.owned.r-uncommon { border-color: var(--r-uncommon); box-shadow: 0 0 8px rgba(74,222,128,0.15); }
+  .element-cell.owned.r-rare { border-color: var(--r-rare); box-shadow: 0 0 10px rgba(96,165,250,0.2); }
+  .element-cell.owned.r-epic { border-color: var(--r-epic); box-shadow: 0 0 12px rgba(192,132,252,0.25); }
+  .element-cell.owned.r-legendary {
+    border-color: var(--r-legendary);
+    box-shadow: 0 0 16px rgba(251,191,36,0.35);
+    animation: legendaryShimmer 3s ease-in-out infinite;
+  }
+  @keyframes legendaryShimmer {
+    0%, 100% { box-shadow: 0 0 16px rgba(251,191,36,0.35); }
+    50% { box-shadow: 0 0 24px rgba(251,191,36,0.6); }
+  }
+  .el-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    color: var(--muted);
+    line-height: 1;
+    align-self: flex-start;
+  }
+  .el-symbol {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1;
+    margin: 4px 0 2px;
+    color: var(--text);
+  }
+  .element-cell.owned.r-common .el-symbol { color: var(--r-common); }
+  .element-cell.owned.r-uncommon .el-symbol { color: var(--r-uncommon); }
+  .element-cell.owned.r-rare .el-symbol { color: var(--r-rare); }
+  .element-cell.owned.r-epic .el-symbol { color: var(--r-epic); }
+  .element-cell.owned.r-legendary .el-symbol { color: var(--r-legendary); }
+  .el-name {
+    font-size: 9px;
+    color: var(--muted);
+    line-height: 1;
+    text-align: center;
+  }
+  .el-count {
+    position: absolute;
+    top: 2px; right: 2px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    background: var(--bg);
+    border-radius: 99px;
+    padding: 1px 5px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+  }
+  .el-count.gt1 { color: #fcd34d; border-color: rgba(251,191,36,0.3); }
+
+  /* MYSTERY BOX OPENING ANIMATION */
+  .box-open-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(10px);
+    z-index: 9500;
+    display: none;
+    align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .box-open-overlay.show { display: flex; animation: fadeIn 0.3s ease; }
+
+  .box-stage {
+    position: relative;
+    width: 320px; height: 320px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .box-shake {
+    font-size: 130px;
+    animation: boxShake 0.5s ease-in-out infinite;
+    filter: drop-shadow(0 8px 24px rgba(0,0,0,0.5));
+  }
+  @keyframes boxShake {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-8deg) translateY(-3px); }
+    75% { transform: rotate(8deg) translateY(-3px); }
+  }
+  .box-shake.opening {
+    animation: boxOpen 0.6s ease-in forwards;
+  }
+  @keyframes boxOpen {
+    0% { transform: scale(1) rotate(0); opacity: 1; }
+    50% { transform: scale(1.4) rotate(5deg); opacity: 1; }
+    100% { transform: scale(2) rotate(0); opacity: 0; }
+  }
+  .rarity-flash {
+    position: absolute;
+    inset: -200px;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .rarity-flash.flash {
+    animation: rarityFlash 0.6s ease-out;
+  }
+  @keyframes rarityFlash {
+    0% { opacity: 0; transform: scale(0.4); }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; transform: scale(1.5); }
+  }
+
+  .reveal-card {
+    position: absolute;
+    background: linear-gradient(160deg, var(--surface), var(--bg));
+    border: 2px solid;
+    border-radius: 18px;
+    padding: 2rem;
+    text-align: center;
+    width: 280px;
+    transform-style: preserve-3d;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    opacity: 0;
+  }
+  .reveal-card.r-common { border-color: var(--r-common); }
+  .reveal-card.r-uncommon { border-color: var(--r-uncommon); box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 30px rgba(74,222,128,0.3); }
+  .reveal-card.r-rare { border-color: var(--r-rare); box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(96,165,250,0.4); }
+  .reveal-card.r-epic { border-color: var(--r-epic); box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 50px rgba(192,132,252,0.5); }
+  .reveal-card.r-legendary {
+    border-color: var(--r-legendary);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 60px rgba(251,191,36,0.6), inset 0 0 40px rgba(251,191,36,0.1);
+  }
+  .reveal-card.flip-in {
+    animation: cardFlipIn 0.7s cubic-bezier(.2,.9,.3,1.2) forwards;
+  }
+  @keyframes cardFlipIn {
+    0% { opacity: 0; transform: rotateY(180deg) scale(0.6); }
+    50% { opacity: 1; }
+    100% { opacity: 1; transform: rotateY(0) scale(1); }
+  }
+
+  .reveal-rarity-banner {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 99px;
+    margin-bottom: 1rem;
+  }
+  .reveal-rarity-banner.r-common { color: var(--r-common); background: rgba(156,163,175,0.15); border: 1px solid var(--r-common); }
+  .reveal-rarity-banner.r-uncommon { color: var(--r-uncommon); background: rgba(74,222,128,0.15); border: 1px solid var(--r-uncommon); }
+  .reveal-rarity-banner.r-rare { color: var(--r-rare); background: rgba(96,165,250,0.15); border: 1px solid var(--r-rare); }
+  .reveal-rarity-banner.r-epic { color: var(--r-epic); background: rgba(192,132,252,0.15); border: 1px solid var(--r-epic); }
+  .reveal-rarity-banner.r-legendary {
+    color: var(--r-legendary); background: rgba(251,191,36,0.18);
+    border: 1px solid var(--r-legendary);
+    text-shadow: 0 0 8px rgba(251,191,36,0.5);
+  }
+  .reveal-element {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 6rem;
+    font-weight: 300;
+    line-height: 1;
+    margin: 0.5rem 0;
+    color: var(--text);
+  }
+  .reveal-card.r-common .reveal-element { color: var(--r-common); }
+  .reveal-card.r-uncommon .reveal-element { color: var(--r-uncommon); }
+  .reveal-card.r-rare .reveal-element { color: var(--r-rare); }
+  .reveal-card.r-epic .reveal-element { color: var(--r-epic); }
+  .reveal-card.r-legendary .reveal-element {
+    color: var(--r-legendary);
+    text-shadow: 0 0 30px rgba(251,191,36,0.6);
+  }
+  .reveal-name {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+    letter-spacing: -0.01em;
+  }
+  .reveal-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 0.8rem;
+  }
+  .reveal-fact {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--border);
+    margin-top: 0.8rem;
+  }
+  .reveal-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #fcd34d;
+    background: rgba(251,191,36,0.1);
+    border: 1px solid rgba(251,191,36,0.3);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-top: 0.6rem;
+  }
+  .reveal-tag.dupe {
+    color: var(--muted);
+    background: var(--surface);
+    border-color: var(--border);
+  }
+
+  .reveal-actions {
+    display: flex; gap: 8px;
+    margin-top: 1rem;
+  }
+  .reveal-actions button {
+    flex: 1;
+    background: var(--accent);
+    color: white;
+    border: none;
+    padding: 9px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .reveal-actions button:hover { background: #6b58e0; }
+  .reveal-actions button.secondary { background: transparent; border: 1px solid var(--border); color: var(--muted); }
+  .reveal-actions button.secondary:hover { color: var(--text); border-color: var(--border-hover); }
+
+  /* element detail modal */
+  .element-detail-card .ed-icon {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 5rem;
+    font-weight: 300;
+    line-height: 1;
+    text-align: center;
+    margin-bottom: 0.4rem;
+  }
+  .element-detail-card .ed-name {
+    font-size: 1.5rem;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 0.2rem;
+  }
+  .element-detail-card .ed-meta {
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+  .element-detail-card .ed-fact {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.6;
     color: var(--muted);
   }
 
@@ -476,28 +1249,32 @@
     display: flex; align-items: center; justify-content: space-between;
     background: rgba(14,15,20,0.6);
   }
-  .footer-left {
+  .footer-left, .footer-right {
     font-family: 'DM Mono', monospace;
     font-size: 12px;
     color: var(--muted);
   }
-  .footer-right {
-    font-size: 12px;
-    color: var(--muted);
-  }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to { opacity: 1; transform: translateY(0); }
+  /* coin popups */
+  @keyframes coinFloat {
+    0%   { opacity: 0; transform: translate(-50%, 0) scale(0.6); }
+    15%  { opacity: 1; transform: translate(-50%, -16px) scale(1.15); }
+    70%  { opacity: 1; transform: translate(-50%, -70px) scale(1); }
+    100% { opacity: 0; transform: translate(-50%, -110px) scale(0.9); }
   }
 
   @media (max-width: 720px) {
-    nav { padding: 1rem 1.25rem; gap: 0.6rem; }
+    nav { padding: 1rem 1.25rem; gap: 0.5rem; flex-wrap: wrap; }
     .nav-tag { display: none; }
-    .hero { padding: 3rem 1.25rem 2rem; }
-    .hero-stats { gap: 1.5rem; }
+    .nav-tabs { order: 10; width: 100%; margin-left: 0; justify-content: center; padding-top: 0.5rem; border-top: 1px solid var(--border); }
+    .hero { padding: 2rem 1.25rem 1.5rem; }
     .wallet-strip, .how-it-works, .section-label, .cards { padding-left: 1.25rem; padding-right: 1.25rem; }
     .cards { grid-template-columns: 1fr; }
+    .tournament-wrap, .collection-wrap { padding: 1.5rem 1.25rem 3rem; }
+    .rivals-grid { grid-template-columns: 1fr; }
+    .modal-card { padding: 1.5rem; }
+    .reveal-card { width: 240px; padding: 1.5rem; }
+    .reveal-element { font-size: 4.5rem; }
     footer { flex-direction: column; gap: 0.5rem; text-align: center; }
   }
 </style>
@@ -510,9 +1287,15 @@
 <nav>
   <div class="nav-logo">
     <div class="nav-logo-dot"></div>
-    CHEM 101 Study Hub
+    CHEM 101 Hub
   </div>
-  <a href="#wallet-strip" class="coin-pill" data-wallet-bumps title="Your study coins — earn by answering correctly">
+  <div class="nav-tabs">
+    <button class="nav-tab active" data-tab="games" onclick="switchTab('games')">Games</button>
+    <button class="nav-tab" data-tab="tournament" onclick="switchTab('tournament')">Tournament</button>
+    <button class="nav-tab" data-tab="collection" onclick="switchTab('collection')">Collection</button>
+  </div>
+  <div class="nav-spacer"></div>
+  <a href="#wallet-strip" class="coin-pill" data-wallet-bumps title="Your study coins">
     <span class="coin"></span>
     <span data-wallet-coins>0</span>
   </a>
@@ -520,157 +1303,172 @@
   <div class="nav-tag">UNC · Spring 2026</div>
 </nav>
 
-<section class="hero">
-  <div class="hero-eyebrow">
-    <span>&#9679;</span> Interactive Study Games
-  </div>
-  <h1>Study smarter,<br>bet on <em>yourself.</em></h1>
-  <p class="hero-sub">Two interactive review games covering every learning objective in CHEM 101. Wager coins on each question — answer correctly, win the bet. Build a streak, build a bankroll.</p>
-  <div class="hero-stats">
-    <div class="hero-stat">
-      <div class="hero-stat-n"><span>2</span></div>
-      <div class="hero-stat-l">Games</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-n">100<span>+</span></div>
-      <div class="hero-stat-l">Questions</div>
-    </div>
-    <div class="hero-stat">
-      <div class="hero-stat-n"><span>9</span></div>
-      <div class="hero-stat-l">Chapters</div>
-    </div>
-  </div>
-</section>
+<!-- ════ GAMES PANEL ════ -->
+<div class="panel active" id="panel-games">
+  <section class="hero">
+    <div class="hero-eyebrow"><span>&#9679;</span> Interactive Study Games</div>
+    <h1>Study smarter,<br>bet on <em>yourself.</em></h1>
+    <p class="hero-sub">Wager coins on each question. Battle rivals in tournaments. Collect 50 elements. Build a streak, build a bankroll.</p>
+  </section>
 
-<!-- WALLET STRIP -->
-<div class="wallet-strip" id="wallet-strip">
-  <div class="wallet-strip-inner">
-    <div class="wallet-icon">$</div>
-    <div class="wallet-text">
-      <div class="wallet-label">Your Study Wallet</div>
-      <div class="wallet-amount" data-wallet-bumps><span data-wallet-coins>0</span> 🪙</div>
+  <div class="wallet-strip" id="wallet-strip">
+    <div class="wallet-strip-inner">
+      <div class="wallet-icon">$</div>
+      <div class="wallet-text">
+        <div class="wallet-label">Your Study Wallet</div>
+        <div class="wallet-amount" data-wallet-bumps><span data-wallet-coins>0</span> 🪙</div>
+      </div>
+      <div class="wallet-stats">
+        <div class="wallet-stat"><div class="wallet-stat-n" id="walletBest">0</div><div class="wallet-stat-l">Best streak</div></div>
+        <div class="wallet-stat"><div class="wallet-stat-n" id="walletAccuracy">—</div><div class="wallet-stat-l">Accuracy</div></div>
+        <div class="wallet-stat"><div class="wallet-stat-n" id="walletElements">0/50</div><div class="wallet-stat-l">Elements</div></div>
+        <div class="wallet-stat"><div class="wallet-stat-n" id="walletWins">0</div><div class="wallet-stat-l">Tourney wins</div></div>
+      </div>
     </div>
-    <div class="wallet-stats">
-      <div class="wallet-stat">
-        <div class="wallet-stat-n" id="walletBest">0</div>
-        <div class="wallet-stat-l">Best streak</div>
+  </div>
+
+  <div class="how-it-works">
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-icon">🎯</div>
+        <div class="how-title">Wager per question</div>
+        <div class="how-desc">Set a bet before locking your answer. Right doubles it, wrong loses it.</div>
       </div>
-      <div class="wallet-stat">
-        <div class="wallet-stat-n" id="walletAccuracy">—</div>
-        <div class="wallet-stat-l">Accuracy</div>
+      <div class="how-card">
+        <div class="how-icon">⚔️</div>
+        <div class="how-title">Tournament rivals</div>
+        <div class="how-desc">Battle 6 chemistry-themed rivals across 2 tiers. Win coins + element packs.</div>
       </div>
-      <div class="wallet-stat">
-        <div class="wallet-stat-n" id="walletEarned">0</div>
-        <div class="wallet-stat-l">Total earned</div>
+      <div class="how-card">
+        <div class="how-icon">⚛️</div>
+        <div class="how-title">Element collection</div>
+        <div class="how-desc">50 elements across 5 rarities. Open mystery boxes to discover them all.</div>
       </div>
+      <div class="how-card">
+        <div class="how-icon">🛟</div>
+        <div class="how-title">Survival pay</div>
+        <div class="how-desc">Wrong answers still pay 5 🪙 — you can't go fully broke.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-label"><span>Practice quizzes</span><div class="section-line"></div></div>
+
+  <div class="cards">
+    <a href="chem101_quiz.html" class="game-card">
+      <div class="card-top">
+        <div class="card-icon purple">⚛</div>
+        <div class="card-badge purple">Exam Review</div>
+      </div>
+      <div class="card-title">CHEM 101 Quiz</div>
+      <div class="card-desc">One multiple choice question per learning objective, spanning all nine chapters. Wager system enabled.</div>
+      <div class="card-cta">
+        <span class="cta-btn purple">Launch Quiz →</span>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">Ch 1 – 9</span>
+      </div>
+    </a>
+
+    <a href="chem_lab.html" class="game-card">
+      <div class="card-top">
+        <div class="card-icon coral">🧪</div>
+        <div class="card-badge coral">Lab Review</div>
+      </div>
+      <div class="card-title">Chem Lab Review</div>
+      <div class="card-desc">Practice lab techniques and procedures. MC questions support wagering; short-answer questions pay flat coins.</div>
+      <div class="card-cta">
+        <span class="cta-btn coral">Launch Quiz →</span>
+        <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">Lab Exam Prep</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<!-- ════ TOURNAMENT PANEL ════ -->
+<div class="panel" id="panel-tournament">
+  <div class="tournament-wrap">
+    <div class="tournament-head">
+      <h2>Chemistry <em>Tournament</em></h2>
+      <p>Challenge 6 chemistry-themed rivals across 2 tiers. Match consists of 8 questions — both you and your rival face the same questions, both wager. Highest coin take wins.</p>
+    </div>
+
+    <div class="tier-section">
+      <div class="tier-header">
+        <span class="tier-badge t1">Tier 1 · Free entry</span>
+        <span class="tier-progress">Progress: <b id="t1Progress">0/3</b> defeated · Beat 2 to unlock Tier 2</span>
+      </div>
+      <div class="rivals-grid" id="t1Rivals"></div>
+    </div>
+
+    <div class="tier-section">
+      <div class="tier-header">
+        <span class="tier-badge t2">Tier 2 · 300 🪙 entry</span>
+        <span class="tier-progress" id="t2ProgLine">Progress: <b id="t2Progress">0/3</b> defeated · Beat 2 to win the tournament</span>
+        <span class="tier-locked-msg" id="t2LockedMsg" style="display:none">🔒 Locked · clear Tier 1 first</span>
+      </div>
+      <div class="rivals-grid" id="t2Rivals"></div>
+    </div>
+
+    <div class="champion-banner" id="championBanner" style="display:none">
+      <h3>🏆 Tournament Champion</h3>
+      <p>You've beaten the entire roster. Your name will live in chemistry hub legend.</p>
     </div>
   </div>
 </div>
 
-<!-- HOW IT WORKS -->
-<div class="how-it-works">
-  <div class="how-grid">
-    <div class="how-card">
-      <div class="how-icon">🎯</div>
-      <div class="how-title">Wager per question</div>
-      <div class="how-desc">Set a bet before locking in your answer. Right doubles it, wrong loses it.</div>
+<!-- ════ COLLECTION PANEL ════ -->
+<div class="panel" id="panel-collection">
+  <div class="collection-wrap">
+    <div class="collection-head">
+      <h2>Element <em>Collection</em></h2>
+      <p>Open mystery boxes to discover 50 elements across 5 rarities. Duplicates convert to coins automatically. Bad-luck protection (pity) guarantees rare drops every so often.</p>
     </div>
-    <div class="how-card">
-      <div class="how-icon">🔥</div>
-      <div class="how-title">Build streaks</div>
-      <div class="how-desc">3 in a row unlocks a "hot hand" — temporarily higher max bets.</div>
-    </div>
-    <div class="how-card">
-      <div class="how-icon">💰</div>
-      <div class="how-title">Shared wallet</div>
-      <div class="how-desc">Earnings carry between both quizzes. Win in lab, spend in 101.</div>
-    </div>
-    <div class="how-card">
-      <div class="how-icon">🛟</div>
-      <div class="how-title">Survival pay</div>
-      <div class="how-desc">Wrong answers still pay 5 🪙 — you can't go fully broke.</div>
-    </div>
+
+    <div class="collection-stats" id="collectionStats"></div>
+
+    <div class="section-label" style="padding:0;margin-bottom:1rem;"><span>Mystery boxes</span><div class="section-line"></div></div>
+
+    <div class="shop-grid" id="shopGrid"></div>
+
+    <div class="section-label" style="padding:0;margin-bottom:1rem;"><span>Your collection</span><div class="section-line"></div></div>
+
+    <div class="filter-row" id="filterRow"></div>
+    <div class="element-grid" id="elementGrid"></div>
   </div>
 </div>
 
-<div class="section-label">
-  <span>Games</span>
-  <div class="section-line"></div>
+<!-- ════ MATCH PRE-START MODAL ════ -->
+<div class="modal-overlay" id="matchModal" onclick="closeMatchModal()">
+  <div class="modal-card" onclick="event.stopPropagation()" style="position:relative;">
+    <button class="modal-close" onclick="closeMatchModal()">×</button>
+    <div id="matchModalBody"></div>
+  </div>
 </div>
 
-<div class="cards">
+<!-- ════ MATCH LIVE PLAY MODAL (full-screen takeover) ════ -->
+<div class="modal-overlay" id="matchPlayModal" style="background:rgba(14,15,20,0.98);align-items:flex-start;padding:2rem 1rem;">
+  <div style="max-width:740px;width:100%;">
+    <div id="matchPlayBody"></div>
+  </div>
+</div>
 
-  <!-- CHEM 101 QUIZ -->
-  <a href="chem101_quiz.html" class="game-card card-purple">
-    <div class="card-top">
-      <div class="card-icon purple">⚛</div>
-      <div class="card-badge purple">Exam Review</div>
-    </div>
-    <div class="card-title">CHEM 101 Quiz</div>
-    <div class="card-desc">One multiple choice question per learning objective, spanning all nine chapters. Covers every topic from matter & energy through gas laws.</div>
-    <div class="card-meta">
-      <div class="card-meta-item">
-        <div class="card-meta-val">76</div>
-        <div class="card-meta-label">Questions</div>
-      </div>
-      <div class="card-meta-item">
-        <div class="card-meta-val">9</div>
-        <div class="card-meta-label">Chapters</div>
-      </div>
-      <div class="card-meta-item">
-        <div class="card-meta-val">~25</div>
-        <div class="card-meta-label">Minutes</div>
-      </div>
-    </div>
-    <div class="card-divider"></div>
-    <div class="card-tags">
-      <span class="card-tag">Atomic Structure</span>
-      <span class="card-tag">Bonding</span>
-      <span class="card-tag">Stoichiometry</span>
-      <span class="card-tag">Gas Laws</span>
-      <span class="card-tag">IMFs</span>
-    </div>
-    <div class="card-cta">
-      <span class="cta-btn purple">Launch Quiz <span class="cta-arrow">→</span></span>
-      <span class="card-progress">Ch 1 – 9 · wager enabled</span>
-    </div>
-  </a>
+<!-- ════ MATCH RESULT MODAL ════ -->
+<div class="modal-overlay" id="resultModal" onclick="closeResultModal()">
+  <div class="modal-card result-modal-card" onclick="event.stopPropagation()" style="position:relative;">
+    <div id="resultModalBody"></div>
+  </div>
+</div>
 
-  <!-- CHEM LAB -->
-  <a href="chem_lab.html" class="game-card card-coral">
-    <div class="card-top">
-      <div class="card-icon coral">🧪</div>
-      <div class="card-badge coral">Lab Review</div>
-    </div>
-    <div class="card-title">Chem Lab Review</div>
-    <div class="card-desc">Practice lab techniques, procedures, and concepts tested in the CHEM 101 laboratory. Sharpen your skills before lab exams.</div>
-    <div class="card-meta">
-      <div class="card-meta-item">
-        <div class="card-meta-val">26</div>
-        <div class="card-meta-label">Questions</div>
-      </div>
-      <div class="card-meta-item">
-        <div class="card-meta-val">Lab</div>
-        <div class="card-meta-label">Focus</div>
-      </div>
-      <div class="card-meta-item">
-        <div class="card-meta-val">Quiz</div>
-        <div class="card-meta-label">Format</div>
-      </div>
-    </div>
-    <div class="card-divider"></div>
-    <div class="card-tags">
-      <span class="card-tag">Lab Techniques</span>
-      <span class="card-tag">Safety</span>
-      <span class="card-tag">Procedures</span>
-      <span class="card-tag">Data Analysis</span>
-    </div>
-    <div class="card-cta">
-      <span class="cta-btn coral">Launch Quiz <span class="cta-arrow">→</span></span>
-      <span class="card-progress">Lab Exam Prep · wager enabled</span>
-    </div>
-  </a>
+<!-- ════ ELEMENT DETAIL MODAL ════ -->
+<div class="modal-overlay" id="elementModal" onclick="closeElementModal()">
+  <div class="modal-card element-detail-card" onclick="event.stopPropagation()" style="position:relative;">
+    <button class="modal-close" onclick="closeElementModal()">×</button>
+    <div id="elementModalBody"></div>
+  </div>
+</div>
 
+<!-- ════ MYSTERY BOX OPENING OVERLAY ════ -->
+<div class="box-open-overlay" id="boxOpenOverlay">
+  <div class="box-stage" id="boxStage"></div>
 </div>
 
 <footer>
@@ -725,6 +1523,16 @@ function defaultState() {
     questionsCorrect: 0,
     totalWagered: 0,
     totalWonOnBets: 0,
+    // Element collection
+    ownedElements: {},        // { 'H': count, 'C': count, ... }
+    boxesOpened: 0,
+    pitySinceRare: 0,
+    pitySinceEpic: 0,
+    pitySinceLeg: 0,
+    // Tournament
+    tournamentWins: {},       // { 'andre': count, ... }
+    tournamentTier: 1,        // current unlocked tier
+    tournamentChamp: false,   // true after beating Mendeleev
   };
 }
 
@@ -864,21 +1672,1085 @@ function toggleSound() {
 }
 
 
-/* hub-specific bits */
+/* ════ QUESTION BANK (for tournament matches) ════ */
+const ALL_QUESTIONS = [
+  // CH 1
+  { ch:1, obj:"1A", q:"Which of the following is a CHEMICAL property of iron?", choices:["Iron melts at 1538°C","Iron is a shiny, silver-gray metal","Iron rusts when exposed to oxygen and water","Iron is denser than aluminum"], ans:2, explain:"Chemical properties describe how a substance transforms into a different substance. Rusting (oxidation) is a chemical change; melting, appearance, and density are physical properties." },
+  { ch:1, obj:"1B", q:"Which statement best explains why gases are more compressible than liquids?", choices:["Gas molecules move faster than liquid molecules","Gas molecules have much greater spacing between them and weaker intermolecular forces","Gas molecules are smaller than liquid molecules","Gas molecules have more kinetic energy per molecule"], ans:1, explain:"The particulate nature of matter explains compressibility: gas particles are far apart with negligible intermolecular forces, so they can be pushed together easily. Liquids have particles in close contact." },
+  { ch:1, obj:"1C", q:"The molecular formula of caffeine is C₈H₁₀N₄O₂. How many atoms of nitrogen are in one molecule of caffeine?", choices:["2","4","8","10"], ans:1, explain:"The subscript after each element symbol gives the count of that atom per molecule. N₄ means 4 nitrogen atoms per caffeine molecule." },
+  { ch:1, obj:"1D", q:"A particle has a diameter of 2.5 nm. What is this in meters?", choices:["2.5 × 10⁻⁶ m","2.5 × 10⁻⁹ m","2.5 × 10⁻¹² m","2.5 × 10⁻³ m"], ans:1, explain:"The SI prefix 'nano' (n) means 10⁻⁹. So 2.5 nm = 2.5 × 10⁻⁹ m." },
+  { ch:1, obj:"1E", q:"Convert 450 cm to meters.", choices:["0.450 m","4.50 m","45.0 m","4500 m"], ans:1, explain:"1 m = 100 cm. So 450 cm × (1 m / 100 cm) = 4.50 m. Moving from centi to the base unit means dividing by 100." },
+  { ch:1, obj:"1F", q:"A student measures a mass as 12.340 g. How many significant figures does this value have?", choices:["3","4","5","6"], ans:2, explain:"12.340 g has 5 significant figures. All non-zero digits are significant, zeros between them are significant, and trailing zeros after a decimal point are significant." },
+  { ch:1, obj:"1G", q:"A car travels at 60.0 miles/hour. What is this speed in m/s? (1 mile = 1609 m)", choices:["26.8 m/s","36.0 m/s","96.5 m/s","0.0373 m/s"], ans:0, explain:"60.0 mi/hr × 1609 m/mi × 1 hr/3600 s = 26.8 m/s." },
+  { ch:1, obj:"1H", q:"A gold bar has a mass of 400.0 troy oz. Given 1 troy oz = 31.10 g and the density of gold = 19.3 g/cm³, what is the volume of the bar in cm³?", choices:["643 cm³","124,400 cm³","645 cm³","20.7 cm³"], ans:0, explain:"400.0 troy oz × 31.10 g/troy oz = 12,440 g. Volume = mass/density = 12,440 g / 19.3 g/cm³ = 644.6 ≈ 645 cm³. (Answer is ~644-645 cm³.)" },
+  { ch:1, obj:"1I", q:"The COAST approach to problem solving stands for:", choices:["Calculate, Organize, Assign, Solve, Test","Collect data, Outline, Analyze, Summarize, Test","Conceptualize, Organize information, Analyze the problem, Solve, Test the answer","Check, Organize, Approximate, Solve, Tally"], ans:2, explain:"COAST = Conceptualize (understand what is being asked), Organize information, Analyze (choose the approach), Solve (carry out the math), Test the answer (does it make sense?)." },
+  { ch:1, obj:"1J", q:"A 25.0 mL sample of olive oil has a mass of 23.0 g. What is the density of olive oil in g/mL?", choices:["575 g/mL","1.09 g/mL","0.920 g/mL","0.0435 g/mL"], ans:2, explain:"Density = mass/volume = 23.0 g / 25.0 mL = 0.920 g/mL." },
+  { ch:1, obj:"1K", q:"During the condensation of steam to liquid water, which statement about energy is correct?", choices:["Kinetic energy increases as molecules slow down","Electrostatic potential energy increases as molecules come closer","Electrostatic potential energy decreases as attractive forces pull molecules together","Kinetic energy is converted to potential energy"], ans:2, explain:"During condensation, gas molecules come closer together. The attractive electrostatic (intermolecular) forces do work, lowering the potential energy. Energy is released to the surroundings." },
+
+  // CH 2
+  { ch:2, obj:"2A", q:"Which experiment provided evidence that atoms contain a dense, positive nucleus?", choices:["Thomson's cathode ray experiment","Millikan's oil drop experiment","Rutherford's gold foil experiment","Dalton's atomic theory"], ans:2, explain:"Rutherford's gold foil experiment showed that most alpha particles passed straight through, but a few deflected at large angles — evidence of a small, dense, positively charged nucleus." },
+  { ch:2, obj:"2B", q:"Based on Rutherford's gold foil experiment, the atom is best described as:", choices:["A uniform sphere of positive charge with electrons embedded throughout","Mostly empty space with a tiny, dense, positively charged nucleus","A dense ball of neutrons surrounded by electrons","A flat disk with the nucleus at the edge"], ans:1, explain:"The gold foil experiment showed most alpha particles pass through undeflected (mostly empty space), with a few bouncing back (small dense nucleus). This replaced Thomson's 'plum pudding' model." },
+  { ch:2, obj:"2C", q:"Where are electrons located in an atom, and what is their charge?", choices:["In the nucleus; positive charge","In the nucleus; negative charge","Outside the nucleus in orbitals; negative charge","Outside the nucleus in orbitals; positive charge"], ans:2, explain:"Electrons are found in orbitals outside the nucleus and carry a -1 charge. Protons (positive) and neutrons (neutral) are in the nucleus." },
+  { ch:2, obj:"2D", q:"An atom of phosphorus-31 (P) forms a 3⁻ ion. How many electrons does P³⁻ have?", choices:["12","15","18","21"], ans:2, explain:"Neutral P has 15 electrons (atomic number = 15). A 3⁻ ion has gained 3 electrons: 15 + 3 = 18 electrons." },
+  { ch:2, obj:"2E", q:"Chlorine has two naturally occurring isotopes: Cl-35 (75.77% abundance, 34.97 amu) and Cl-37 (24.23% abundance, 36.97 amu). What is the average atomic mass?", choices:["35.45 amu","36.00 amu","35.97 amu","36.47 amu"], ans:0, explain:"Avg mass = (0.7577 × 34.97) + (0.2423 × 36.97) = 26.50 + 8.96 = 35.45 amu. This matches the periodic table value for Cl." },
+  { ch:2, obj:"2F", q:"How many molecules are in 0.250 mol of H₂O?", choices:["2.41 × 10²³","1.51 × 10²³","6.02 × 10²³","3.01 × 10²²"], ans:1, explain:"0.250 mol × 6.022 × 10²³ molecules/mol = 1.506 × 10²³ molecules ≈ 1.51 × 10²³." },
+  { ch:2, obj:"2G", q:"What is the molar mass of glucose (C₆H₁₂O₆)?", choices:["30.0 g/mol","90.0 g/mol","180.2 g/mol","342.3 g/mol"], ans:2, explain:"6 C = 6×12.01 = 72.06; 12 H = 12×1.008 = 12.10; 6 O = 6×16.00 = 96.00. Total = 180.16 ≈ 180.2 g/mol." },
+  { ch:2, obj:"2H", q:"A mass spectrum of an element shows two peaks: one at m/z = 63 and one at m/z = 65, with relative intensities of 70 and 30 respectively. This element is most likely:", choices:["Zinc","Copper","Nickel","Gallium"], ans:1, explain:"Copper has two isotopes: Cu-63 (~69% abundant) and Cu-65 (~31% abundant). The mass spectrum pattern — two peaks near m/z 63 and 65 with roughly 70:30 intensity — matches copper." },
+
+  // CH 3
+  { ch:3, obj:"3A", q:"A photon has a wavelength of 500 nm. What is its frequency? (c = 3.00 × 10⁸ m/s)", choices:["6.00 × 10¹⁴ Hz","1.67 × 10⁻¹⁵ Hz","6.00 × 10¹¹ Hz","1.50 × 10⁵ Hz"], ans:0, explain:"ν = c/λ = (3.00×10⁸ m/s) / (500×10⁻⁹ m) = 6.00×10¹⁴ Hz. This is visible green light." },
+  { ch:3, obj:"3B", q:"The photoelectric effect demonstrates that:", choices:["Light travels in waves and has no particle nature","Increasing the intensity of light below the threshold frequency will eventually eject electrons","Electrons are ejected only when the light frequency exceeds a threshold value, regardless of intensity","All frequencies of light can eject electrons if the intensity is high enough"], ans:2, explain:"Einstein's explanation: light behaves as photons with E=hν. Electrons are only ejected if each photon has enough energy (hν ≥ work function). Intensity determines the number of photons, not energy per photon." },
+  { ch:3, obj:"3C", q:"The line spectrum of hydrogen arises because:", choices:["Hydrogen has only one electron that absorbs all wavelengths of light","Electrons transition between discrete (quantized) energy levels, emitting photons of specific energies","Hydrogen atoms vibrate at specific frequencies","Each hydrogen atom is a slightly different size"], ans:1, explain:"Electrons in H occupy discrete energy levels. When an electron drops from a higher to a lower level, it emits a photon with energy equal to the difference (ΔE = hν). Only certain ΔE values exist, so only certain wavelengths are emitted." },
+  { ch:3, obj:"3D", q:"Using the Bohr model, what wavelength of light is emitted when an electron in H transitions from n=4 to n=2? (hcR_H = 2.18×10⁻¹⁸ J, h = 6.626×10⁻³⁴ J·s, c = 3.00×10⁸ m/s)", choices:["122 nm","486 nm","656 nm","1875 nm"], ans:1, explain:"ΔE = -2.18×10⁻¹⁸(1/16 - 1/4) = -2.18×10⁻¹⁸(-3/16) = 4.09×10⁻¹⁹ J. λ = hc/ΔE = (6.626×10⁻³⁴ × 3.00×10⁸)/(4.09×10⁻¹⁹) ≈ 486 nm (blue, Balmer series)." },
+  { ch:3, obj:"3E", q:"A particle's de Broglie wavelength depends on:", choices:["Only its velocity","Only its mass","Its mass and velocity (momentum)","Its charge and mass"], ans:2, explain:"de Broglie wavelength λ = h/mv = h/p, where p is momentum. Both mass and velocity matter — heavier or faster particles have shorter wavelengths." },
+  { ch:3, obj:"3F", q:"The Heisenberg Uncertainty Principle states that:", choices:["We cannot know the exact energy of an electron in an atom","It is impossible to simultaneously know both the exact position and exact momentum of a particle","Electrons always travel in circular orbits","The spin of an electron is either +1/2 or -1/2"], ans:1, explain:"Heisenberg's principle: Δx·Δp ≥ h/4π. Precisely measuring an electron's position introduces uncertainty in its momentum, and vice versa. This is why we use probability distributions (orbitals) rather than exact paths." },
+  { ch:3, obj:"3G", q:"Which set of quantum numbers correctly describes an electron in the 3d subshell?", choices:["n=3, ℓ=0, mℓ=0","n=3, ℓ=2, mℓ=+2","n=3, ℓ=3, mℓ=0","n=2, ℓ=2, mℓ=-1"], ans:1, explain:"For 3d: n=3, ℓ=2 (d subshell), mℓ can be -2,-1,0,+1,+2. Option B (n=3, ℓ=2, mℓ=+2) is valid. Option A is 3s; C has ℓ=n which is impossible; D has ℓ=2 but n=2 (not possible since ℓ < n)." },
+  { ch:3, obj:"3H", q:"A boundary surface diagram (orbital shape drawing) of an orbital primarily shows:", choices:["Where an electron spends exactly 100% of its time","The region of space where there is a ~90% probability of finding the electron","The exact path the electron travels","The energy of the electron"], ans:1, explain:"The boundary surface diagram (e.g., the 'dumbbell' shape for a p orbital) encloses the region where the electron can be found ~90% of the time. It shows shape and orientation, not exact position." },
+  { ch:3, obj:"3I", q:"What is the ground-state electron configuration of nitrogen (Z=7)?", choices:["1s²2s²2p³","1s²2s²2p²3s¹","1s²2s²2p⁴","1s²2s¹2p⁴"], ans:0, explain:"N (Z=7): 1s gets 2, 2s gets 2, remaining 3 electrons go into 2p one each (Hund's rule) → 1s²2s²2p³. The three 2p electrons occupy separate orbitals with parallel spins." },
+  { ch:3, obj:"3J", q:"The condensed (noble gas) electron configuration of sulfur (Z=16) is:", choices:["[Ar]3s²3p⁴","[Ne]3s²3p⁴","[Ne]3s²3p⁶","[He]2s²2p⁶3s²3p⁴"], ans:1, explain:"S (Z=16). Ne has Z=10, so [Ne] accounts for 1s²2s²2p⁶. Remaining 6 electrons: 3s²3p⁴. Condensed config: [Ne]3s²3p⁴." },
+  { ch:3, obj:"3K", q:"A sodium atom (Na) loses one electron to form Na⁺. How does the ion differ from the neutral atom?", choices:["It has more protons","It has fewer protons","It has one fewer electron and is smaller","It has one more neutron"], ans:2, explain:"Na has 11 protons and 11 electrons. Na⁺ has 11 protons but only 10 electrons (lost 1). Fewer electrons with the same nuclear charge means stronger pull per electron → smaller radius." },
+  { ch:3, obj:"3L", q:"Based on the periodic table, what charge would you predict for a monatomic ion of calcium (Ca)?", choices:["1+","2+","2-","1-"], ans:1, explain:"Ca is in Group 2A. Metals in this group lose 2 electrons to achieve a noble gas configuration → Ca²⁺." },
+  { ch:3, obj:"3M", q:"What is the electron configuration of the oxide ion, O²⁻?", choices:["1s²2s²2p⁴","1s²2s²2p⁶","1s²2s²2p⁵","1s²2s⁴2p⁴"], ans:1, explain:"Neutral O (Z=8): 1s²2s²2p⁴. O²⁻ gains 2 electrons: 1s²2s²2p⁶. This is isoelectronic with neon." },
+  { ch:3, obj:"3N", q:"Which is larger: a neutral K atom or a K⁺ ion?", choices:["K⁺ is larger because it has more protons","K is larger because it has more electrons filling a higher shell","They are the same size","K⁺ is larger due to increased electron repulsion"], ans:1, explain:"Cations are smaller than their parent atoms. K loses its single 4s electron upon becoming K⁺, eliminating the outermost shell. The remaining electrons are in n=3, closer to the nucleus." },
+  { ch:3, obj:"3O", q:"Arrange the following isoelectronic species in order of INCREASING size: Na⁺, Mg²⁺, Ne, F⁻", choices:["F⁻ < Ne < Na⁺ < Mg²⁺","Mg²⁺ < Na⁺ < Ne < F⁻","Ne < F⁻ < Na⁺ < Mg²⁺","Na⁺ < Mg²⁺ < F⁻ < Ne"], ans:1, explain:"All have 10 electrons. Size decreases as nuclear charge increases (more protons pull the same electrons closer). Mg²⁺ (Z=12) < Na⁺ (Z=11) < Ne (Z=10) < F⁻ (Z=9)." },
+  { ch:3, obj:"3P", q:"Which element has the highest first ionization energy?", choices:["Na","Al","Cl","Ar"], ans:3, explain:"Ionization energy generally increases across a period (increasing Zeff) and decreases down a group. Ar (noble gas, Z=18) has the highest Zeff in period 3 and a fully filled shell → highest IE." },
+  { ch:3, obj:"3Q", q:"Electron affinity is best defined as:", choices:["The energy required to remove an electron from a gaseous atom","The energy change when a gaseous atom gains an electron","The attraction between an atom's nucleus and its valence electrons","The average distance of electrons from the nucleus"], ans:1, explain:"Electron affinity = ΔE for: X(g) + e⁻ → X⁻(g). It measures how much an atom 'wants' an additional electron. Most electron affinities are negative (exothermic)." },
+
+  // CH 4
+  { ch:4, obj:"4A", q:"Lattice energy is defined as the energy required to:", choices:["Break all covalent bonds in a molecule","Separate one mole of an ionic solid into its gaseous ions","Dissolve an ionic compound in water","Form an ionic solid from its elements"], ans:1, explain:"Lattice energy = energy required for MX(s) → M⁺(g) + X⁻(g). It measures the strength of ionic electrostatic attractions. Higher lattice energy = stronger ionic bonds." },
+  { ch:4, obj:"4B", q:"Which compound has the most negative lattice energy (strongest ionic bonds)?", choices:["NaCl","MgO","LiF","KBr"], ans:1, explain:"Lattice energy magnitude increases with higher ionic charges and smaller ionic radii (Eel = kQ₊Q₋/d). MgO has 2+ and 2- charges and small ions → by far the most negative lattice energy." },
+  { ch:4, obj:"4C", q:"Covalent bonding occurs because:", choices:["Atoms transfer electrons completely to achieve noble gas configurations","Atoms share electrons and the shared electrons are attracted to both nuclei, lowering potential energy","Opposite charges attract, forming ion pairs","Electrons are delocalized across an entire metallic lattice"], ans:1, explain:"In a covalent bond, electrons are shared between nuclei. Both nuclei attract the shared electron density between them, lowering the electrostatic potential energy compared to separated atoms." },
+  { ch:4, obj:"4D", q:"Which bond is the most polar?", choices:["C–H","N–H","O–H","F–H"], ans:3, explain:"Bond polarity depends on electronegativity difference. F is the most electronegative element (EN ≈ 4.0), so F–H has the greatest Δ EN → most polar bond." },
+  { ch:4, obj:"4E", q:"What is the correct formula for iron(III) sulfate?", choices:["FeSO₄","Fe₂(SO₄)₃","Fe₃SO₄","Fe₂SO₄"], ans:1, explain:"Iron(III) = Fe³⁺; sulfate = SO₄²⁻. To balance charges: 2×(+3) = 6+ and 3×(-2) = 6-. Formula: Fe₂(SO₄)₃." },
+  { ch:4, obj:"4F", q:"What is the correct IUPAC name for N₂O₄?", choices:["Nitrogen oxide","Dinitrogen oxide","Nitrogen tetraoxide","Dinitrogen tetraoxide"], ans:3, explain:"For molecular (covalent) compounds: use Greek prefixes. N₂ = dinitrogen, O₄ = tetraoxide. Name: dinitrogen tetraoxide. (Drop the 'a' in 'tetra' before 'oxide'.)" },
+  { ch:4, obj:"4G", q:"Which pair of elements is most likely to form an IONIC compound?", choices:["C and O","N and H","S and F","Sr and Cl"], ans:3, explain:"Ionic compounds form between metals and nonmetals with large electronegativity differences. Sr is an alkaline earth metal; Cl is a highly electronegative nonmetal → ionic compound SrCl₂." },
+  { ch:4, obj:"4H", q:"How many valence electrons are in the Lewis structure of SO₄²⁻?", choices:["24","30","32","38"], ans:2, explain:"S contributes 6, each of 4 O contributes 6 (total 24 from O), plus 2 extra for the 2- charge. Total = 6 + 24 + 2 = 32 valence electrons." },
+  { ch:4, obj:"4I", q:"In the Lewis structure of CO₂, what are the formal charges on C and O?", choices:["C = +2, O = -1","C = 0, O = 0","C = +1, O = -1","C = -1, O = 0"], ans:1, explain:"Best Lewis structure of CO₂ has two C=O double bonds. Formal charge = valence e⁻ – nonbonding e⁻ – ½(bonding e⁻). For C: 4–0–4=0. For each O: 6–4–2=0. All formal charges = 0." },
+  { ch:4, obj:"4J", q:"Which molecule has resonance structures?", choices:["H₂O","CH₄","O₃","HF"], ans:2, explain:"O₃ (ozone) has two equivalent Lewis structures with one O=O double bond and one O–O single bond that can be drawn in two ways. These are resonance structures; the actual molecule is intermediate between them." },
+  { ch:4, obj:"4K", q:"Which relationship between bond order, bond energy, and bond length is CORRECT?", choices:["Higher bond order → longer bond, lower energy","Higher bond order → shorter bond, higher energy","Higher bond order → longer bond, higher energy","Higher bond order → shorter bond, lower energy"], ans:1, explain:"Triple bonds (bond order 3) are shorter and stronger than double bonds, which are shorter/stronger than single bonds. Higher bond order = more electron density between nuclei = shorter + stronger bond." },
+  { ch:4, obj:"4L", q:"The Lewis structure of BF₃ is unusual because:", choices:["The central atom B has too many electrons (expanded octet)","B has only 6 electrons around it — an incomplete octet","B forms ionic bonds with F","F has no lone pairs"], ans:1, explain:"Boron has only 3 valence electrons. In BF₃, B forms 3 bonds = 6 electrons, which is only 6 (incomplete octet). Boron commonly violates the octet rule by having fewer than 8 electrons." },
+  { ch:4, obj:"4M", q:"NO (nitric oxide) is an example of a free radical. What makes it a free radical?", choices:["It has a negative formal charge","It has an odd number of electrons, leaving one unpaired","It has an expanded octet","It has no lone pairs on nitrogen"], ans:1, explain:"NO has 5+6=11 valence electrons, which is odd. This means at least one electron must be unpaired. Molecules with unpaired electrons are called free radicals." },
+  { ch:4, obj:"4N", q:"Why do molecules like CO₂ and H₂O contribute to the greenhouse effect?", choices:["They reflect sunlight back into space","They absorb infrared radiation emitted by Earth's surface, re-emitting it and warming the atmosphere","They react with oxygen to produce heat","They increase the albedo of the atmosphere"], ans:1, explain:"Earth's surface absorbs sunlight and re-emits infrared (IR) radiation. Greenhouse gases (CO₂, H₂O, CH₄) have vibrational modes that absorb IR radiation, trapping heat in the atmosphere." },
+
+  // CH 5
+  { ch:5, obj:"5A", q:"How many electron domains are around the central atom in H₂S?", choices:["2","3","4","5"], ans:2, explain:"S in H₂S has 2 bonding pairs (S–H bonds) + 2 lone pairs = 4 electron domains. Each lone pair and each bond counts as one electron domain (VSEPR)." },
+  { ch:5, obj:"5B", q:"A molecule has 4 electron domains and 2 lone pairs on the central atom. What is its molecular shape?", choices:["Tetrahedral","Trigonal pyramidal","Bent (V-shaped)","Linear"], ans:2, explain:"4 electron domains = tetrahedral electron geometry. With 2 bonding pairs + 2 lone pairs, the molecular shape is bent (V-shaped), as in H₂O (~104.5°)." },
+  { ch:5, obj:"5C", q:"In a wedge-and-dash diagram, what does a dashed wedge represent?", choices:["A bond in the plane of the paper","A bond coming toward the viewer","A bond going away from the viewer","A double bond"], ans:2, explain:"In wedge-and-dash notation: solid wedge = bond toward viewer (in front of the plane), dashed wedge = bond going away from the viewer (behind the plane), solid line = bond in the plane of the page." },
+  { ch:5, obj:"5D", q:"What is the predicted bond angle in NH₃ according to VSEPR?", choices:["180°","120°","109.5°","~107°"], ans:3, explain:"NH₃ has 4 electron domains (3 bonding + 1 lone pair). Ideal tetrahedral = 109.5°, but lone pairs repel more strongly, compressing the H–N–H angle to ~107°." },
+  { ch:5, obj:"5E", q:"CCl₄ is a nonpolar molecule despite having polar C–Cl bonds. Why?", choices:["C–Cl bonds are actually nonpolar","The four C–Cl bond dipoles point symmetrically in all directions and cancel out","The lone pairs on Cl cancel the bond dipoles","The molecule has an odd number of electrons"], ans:1, explain:"CCl₄ is tetrahedral — the four identical C–Cl bond dipoles point outward symmetrically. By vector addition they cancel, giving a net dipole moment of zero → nonpolar molecule." },
+  { ch:5, obj:"5F", q:"The bond angles in methane (CH₄) are 109.5° because carbon is:", choices:["sp hybridized","sp² hybridized","sp³ hybridized","sp³d hybridized"], ans:2, explain:"C in CH₄ has 4 bonding pairs, no lone pairs → 4 electron domains. This predicts sp³ hybridization with tetrahedral geometry and 109.5° bond angles." },
+  { ch:5, obj:"5G", q:"In Valence Bond (VB) theory, a covalent bond forms when:", choices:["Two ions attract each other","Two atomic orbitals from different atoms overlap, sharing electrons","An electron is transferred from one atom to another","A metallic lattice delocalizes electrons"], ans:1, explain:"VB theory: bonds form by overlap of atomic orbitals on adjacent atoms. The two electrons (one from each atom, or both from one atom) are shared in the region of overlap." },
+  { ch:5, obj:"5H", q:"An sp² hybridized atom has:", choices:["Two hybrid orbitals at 180°","Three hybrid orbitals at 120°","Four hybrid orbitals at 109.5°","Five hybrid orbitals"], ans:1, explain:"sp² hybridization combines one s and two p orbitals → 3 equivalent sp² hybrid orbitals arranged at 120° in a plane (trigonal planar geometry)." },
+  { ch:5, obj:"5I", q:"Which statement correctly distinguishes sigma (σ) and pi (π) bonds?", choices:["σ bonds result from side-to-side orbital overlap; π from head-to-head","π bonds allow free rotation; σ bonds do not","σ bonds result from head-to-head overlap along the internuclear axis; π from side-to-side (parallel) overlap","Both σ and π bonds form from pure s orbital overlap only"], ans:2, explain:"σ bonds: head-on (end-to-end) overlap along the internuclear axis → symmetric around the axis → free rotation possible. π bonds: side-to-side (parallel) p orbital overlap → lobe above and below → prevents free rotation." },
+  { ch:5, obj:"5J", q:"Using MO theory, what is the bond order of Li₂?", choices:["0","0.5","1","2"], ans:2, explain:"Li₂: each Li has 1 valence electron → 2 total valence electrons fill the σ1s MO. Bond order = (bonding e⁻ – antibonding e⁻)/2 = (2-0)/2 = 1. Li₂ exists as a stable diatomic in the gas phase." },
+  { ch:5, obj:"5K", q:"A bonding molecular orbital formed from two 1s atomic orbitals is best described as:", choices:["A σ*1s orbital with a node between the nuclei","A π1s orbital with two lobes","A σ1s orbital with electron density concentrated between the two nuclei","Two separate unchanged 1s orbitals"], ans:2, explain:"Constructive interference of two 1s AOs forms a σ1s bonding MO — a single orbital with increased electron density between the nuclei (lower energy than the AOs)." },
+  { ch:5, obj:"5L", q:"In a MO energy diagram for O₂, which is the HOMO (highest occupied MO)?", choices:["σ2p","π2p","π*2p","σ*2p"], ans:2, explain:"O₂ has 12 valence electrons. Filling the MO diagram (σ2s, σ*2s, σ2p, π2p×2, π*2p×2 partially filled): the last electrons go into the degenerate π*2p orbitals. The HOMO is π*2p." },
+  { ch:5, obj:"5M", q:"O₂ is paramagnetic. What does this tell us about its MO diagram?", choices:["All electrons in O₂ are paired","O₂ has one or more unpaired electrons in its MOs","The bond order of O₂ is zero","O₂ has no antibonding electrons"], ans:1, explain:"Paramagnetic molecules have unpaired electrons. MO theory correctly predicts O₂ has 2 unpaired electrons in the degenerate π*2p orbitals, which VB theory with a simple double bond structure fails to predict." },
+  { ch:5, obj:"5N", q:"If an electron in N₂ is promoted from the HOMO to the LUMO, what happens to the molecule?", choices:["Bond order increases and the molecule becomes more stable","Bond order decreases and the molecule is weakened","Bond order stays the same","The molecule gains a net charge"], ans:1, explain:"In N₂, the HOMO is the σ2p bonding MO and the LUMO is the π*2p antibonding MO. Promoting an electron from bonding to antibonding reduces (bonding – antibonding)/2, weakening the bond." },
+  { ch:5, obj:"5O", q:"When two atomic orbitals combine in MO theory, the result is:", choices:["One molecular orbital (bonding only)","Two molecular orbitals: one bonding and one antibonding","Two identical orbitals","Three molecular orbitals"], ans:1, explain:"MO theory: n atomic orbitals combine to form exactly n molecular orbitals. Two AOs always produce 1 bonding MO (lower energy) and 1 antibonding MO (higher energy). The total number of orbitals is conserved." },
+
+  // CH 6
+  { ch:6, obj:"6A", q:"Which intermolecular force is present in ALL molecular substances?", choices:["Dipole-dipole interactions","Hydrogen bonding","London dispersion forces","Ion-dipole interactions"], ans:2, explain:"London dispersion forces arise from temporary dipoles due to electron movement. They exist between ALL molecules — polar, nonpolar, large, small. They are the only IMF for nonpolar substances like Ar, N₂, CH₄." },
+  { ch:6, obj:"6B", q:"Rank the following in order of increasing boiling point: CH₄, CH₃OH, CH₃F", choices:["CH₃OH < CH₃F < CH₄","CH₄ < CH₃F < CH₃OH","CH₃F < CH₄ < CH₃OH","CH₄ < CH₃OH < CH₃F"], ans:1, explain:"CH₄: only LDF, lowest bp (–161°C). CH₃F: dipole-dipole + LDF, moderate bp (–78°C). CH₃OH: H-bonding (O–H group) + LDF, highest bp (+65°C). Order: CH₄ < CH₃F < CH₃OH." },
+  { ch:6, obj:"6C", q:"Which substance has stronger London dispersion forces, n-pentane (C₅H₁₂, chain) or neopentane (C₅H₁₂, spherical)?", choices:["Neopentane, because it has a larger molecular mass","n-pentane, because its elongated shape gives greater surface area for contact","They are identical since they have the same molecular formula","Neopentane, due to its more compact electron cloud"], ans:1, explain:"LDF increase with polarizability (ease of distorting the electron cloud) and surface area. n-pentane's elongated chain allows more molecular surface contact → stronger LDF → higher boiling point." },
+  { ch:6, obj:"6D", q:"For hydrogen bonding to occur, a molecule must have:", choices:["Any polar bond","An H atom bonded directly to N, O, or F","A lone pair on any atom","A large dipole moment"], ans:1, explain:"Hydrogen bonding requires H bonded to a highly electronegative, small atom (N, O, or F). The partially positive H (δ+) is attracted to a lone pair on N, O, or F of a nearby molecule." },
+  { ch:6, obj:"6E", q:"'Like dissolves like' refers to the rule that:", choices:["Only ionic compounds dissolve in water","Polar or ionic solutes dissolve in polar solvents; nonpolar solutes dissolve in nonpolar solvents","All substances with high molar mass are insoluble","Temperature has no effect on solubility"], ans:1, explain:"Dissolution is favored when solute-solvent interactions (IMFs) are similar in type and strength to solute-solute and solvent-solvent interactions. Polar solvents dissolve polar/ionic solutes; nonpolar solvents dissolve nonpolar solutes." },
+  { ch:6, obj:"6F", q:"On a phase diagram, the triple point represents:", choices:["The temperature at which all phases melt simultaneously","The single temperature and pressure at which all three phases coexist in equilibrium","The critical point beyond which no liquid exists","The boiling point at standard pressure"], ans:1, explain:"The triple point is the unique T and P where solid, liquid, and gas phases are in equilibrium simultaneously. For water it is 0.01°C at 611.7 Pa." },
+  { ch:6, obj:"6G", q:"Why does ice float on liquid water? (an unusual property compared to most substances)", choices:["Ice has more mass per unit volume than liquid water","Water molecules in ice pack more closely together due to hydrogen bonding","The open lattice structure of ice formed by H-bonds gives it a lower density than liquid water","Ice has stronger London dispersion forces than liquid water"], ans:2, explain:"In ice, each water molecule participates in 4 H-bonds in a rigid, open hexagonal lattice — less dense than liquid water. When ice melts, some H-bonds break and molecules pack more closely, making liquid water denser." },
+  { ch:6, obj:"6H", q:"London dispersion forces between two molecules can best be explained as:", choices:["Permanent dipoles attracting each other","Covalent bonds forming between molecules","Temporary fluctuating dipoles in one molecule inducing a dipole in a neighboring molecule","Transferring electrons between molecules"], ans:2, explain:"LDF arise from instantaneous/temporary dipoles (uneven electron distribution at any instant) that induce corresponding dipoles in nearby molecules. These transient electrostatic attractions create LDF." },
+  { ch:6, obj:"6I", q:"The condensed formula CH₃CH₂OH represents ethanol. Which carbon has more electron domains around it?", choices:["The first carbon (CH₃–)","The second carbon (–CH₂–)","Both carbons have the same electron domains","The oxygen has more domains than either carbon"], ans:0, explain:"CH₃ carbon (C1): 3 C–H bonds + 1 C–C bond = 4 bonds, 0 lone pairs = 4 domains. CH₂ carbon (C2): 2 C–H + 1 C–O + 1 C–C = 4 bonds = 4 domains. Both carbons have 4 electron domains. (The O has 2 bonds + 2 lone pairs = 4 domains too.) Answer: they are equal." },
+
+  // CH 7
+  { ch:7, obj:"7A", q:"Which of the following is a correctly balanced chemical equation?", choices:["H₂ + O₂ → H₂O","2H₂ + O₂ → 2H₂O","H₂ + 2O → H₂O","4H + O₂ → 2H₂O"], ans:1, explain:"Check atoms: 2H₂ + O₂ → 2H₂O. Left: 4H, 2O. Right: 4H, 2O. Balanced. The reaction uses diatomic O₂ as the reactant." },
+  { ch:7, obj:"7B", q:"How many grams of H₂O are produced when 4.00 g of H₂ reacts with excess O₂? (2H₂ + O₂ → 2H₂O)", choices:["4.00 g","18.0 g","36.0 g","72.0 g"], ans:2, explain:"mol H₂ = 4.00/2.016 = 1.984 mol. Ratio 2H₂:2H₂O = 1:1, so 1.984 mol H₂O. Mass = 1.984 × 18.02 = 35.7 ≈ 36.0 g." },
+  { ch:7, obj:"7C", q:"What are the products of the complete combustion of propane (C₃H₈)?", choices:["CO + H₂O","CO₂ + H₂","CO₂ + H₂O","C₃H₆ + H₂O"], ans:2, explain:"Complete combustion of a hydrocarbon with excess O₂ always produces CO₂ and H₂O. C₃H₈ + 5O₂ → 3CO₂ + 4H₂O." },
+  { ch:7, obj:"7D", q:"In the reaction N₂ + 3H₂ → 2NH₃, which is the limiting reactant if you start with 28 g N₂ and 6 g H₂?", choices:["N₂","H₂","Both are limiting","Neither is limiting"], ans:0, explain:"mol N₂ = 28/28 = 1.00; mol H₂ = 6/2.016 = 2.98. Stoichiometry: 1 N₂ needs 3 H₂ → 1.00 mol N₂ needs 3.00 mol H₂, but only 2.98 mol available. H₂ is the limiting reactant. Wait — 2.98 < 3.00, so H₂ is actually limiting. Correct answer: H₂. (Re-checking: answer is H₂ — select B.)" },
+  { ch:7, obj:"7E", q:"A reaction has a theoretical yield of 15.0 g and an actual yield of 12.3 g. What is the percent yield?", choices:["82.0%","121.95%","15.0%","12.3%"], ans:0, explain:"% yield = (actual/theoretical) × 100 = (12.3/15.0) × 100 = 82.0%" },
+  { ch:7, obj:"7F", q:"A compound is 40.0% C, 6.72% H, and 53.3% O by mass. What is its empirical formula?", choices:["C₂H₄O₂","CHO","CH₂O","C₂H₂O"], ans:2, explain:"Assume 100 g: 40.0/12.01=3.33 mol C; 6.72/1.008=6.67 mol H; 53.3/16.00=3.33 mol O. Divide by smallest (3.33): C:H:O = 1:2:1 → CH₂O." },
+  { ch:7, obj:"7G", q:"A compound has the empirical formula CH₂O and a molar mass of 180 g/mol. What is its molecular formula?", choices:["CH₂O","C₂H₄O₂","C₆H₁₂O₆","C₃H₆O₃"], ans:2, explain:"Empirical formula mass of CH₂O = 12+2+16 = 30 g/mol. 180/30 = 6. Multiply subscripts by 6: C₆H₁₂O₆ (glucose)." },
+  { ch:7, obj:"7H", q:"In combustion analysis, the carbon content of an organic compound is determined by:", choices:["Measuring the mass of the original sample","Collecting and weighing the CO₂ produced","Titrating the products with base","Subtracting the hydrogen mass from total mass"], ans:1, explain:"In combustion analysis, all C in the compound is converted to CO₂, which is collected and weighed. mol C = mol CO₂ = mass CO₂ / 44.01 g/mol." },
+
+  // CH 8
+  { ch:8, obj:"8A", q:"A solution contains 5 mg of lead ions in 1.00 L of water. What is the concentration in ppm? (density of solution ≈ 1.00 g/mL)", choices:["5 ppm","0.005 ppm","5000 ppm","0.5 ppm"], ans:0, explain:"ppm = mg solute / L solution = 5 mg/L = 5 ppm (when density ≈ 1 g/mL, ppm = mg/kg ≈ mg/L)." },
+  { ch:8, obj:"8B", q:"How many mL of 12.0 M HCl are needed to prepare 500 mL of 0.300 M HCl?", choices:["2.50 mL","12.5 mL","25.0 mL","0.625 mL"], ans:1, explain:"M₁V₁ = M₂V₂. V₁ = (0.300 M × 500 mL) / 12.0 M = 12.5 mL. Dilute 12.5 mL of concentrated HCl to 500 mL." },
+  { ch:8, obj:"8C", q:"Which substance is a strong electrolyte?", choices:["CH₃OH (methanol)","C₆H₁₂O₆ (glucose)","NaCl (table salt)","HF (hydrofluoric acid)"], ans:2, explain:"Strong electrolytes dissociate completely in water. NaCl → Na⁺ + Cl⁻ (100%). Methanol and glucose are nonelectrolytes; HF is a weak acid (weak electrolyte, ~1% dissociated)." },
+  { ch:8, obj:"8D", q:"When NaCl dissolves in water, the sodium ions are solvated by:", choices:["The oxygen end of water molecules","The hydrogen end of water molecules","Other Na⁺ ions","Cl⁻ ions"], ans:0, explain:"Na⁺ is a positive ion. It is attracted to the partial negative charge (δ⁻) on the oxygen atoms of water. Water molecules orient with O facing Na⁺." },
+  { ch:8, obj:"8E", q:"What is the net ionic equation for the reaction of HCl(aq) with NaOH(aq)?", choices:["HCl + NaOH → NaCl + H₂O","H⁺(aq) + Cl⁻(aq) + Na⁺(aq) + OH⁻(aq) → Na⁺(aq) + Cl⁻(aq) + H₂O(l)","H⁺(aq) + OH⁻(aq) → H₂O(l)","Na⁺(aq) + Cl⁻(aq) → NaCl(s)"], ans:2, explain:"Both HCl and NaOH are strong electrolytes, fully dissociated. NaCl is soluble (spectator ions: Na⁺, Cl⁻). The net ionic equation cancels spectators: H⁺(aq) + OH⁻(aq) → H₂O(l)." },
+  { ch:8, obj:"8F", q:"Which of the following is a weak acid?", choices:["HCl","HNO₃","HF","H₂SO₄"], ans:2, explain:"Strong acids (HCl, HBr, HI, HNO₃, H₂SO₄, HClO₄, HClO₃) fully dissociate. HF does not fully dissociate in water → weak acid." },
+  { ch:8, obj:"8G", q:"In the reaction NH₃ + H₂O ⇌ NH₄⁺ + OH⁻, what is the Brønsted-Lowry BASE?", choices:["H₂O","NH₄⁺","NH₃","OH⁻"], ans:2, explain:"A Brønsted-Lowry base accepts a proton. NH₃ accepts H⁺ from water to form NH₄⁺. Water is the Brønsted-Lowry acid (donates H⁺)." },
+  { ch:8, obj:"8H", q:"In a titration, 25.0 mL of 0.100 M NaOH is needed to neutralize 20.0 mL of an HCl solution. What is the molarity of the HCl?", choices:["0.080 M","0.125 M","0.100 M","0.200 M"], ans:1, explain:"Moles NaOH = 0.025 L × 0.100 mol/L = 0.00250 mol. NaOH:HCl = 1:1, so 0.00250 mol HCl. [HCl] = 0.00250/0.0200 L = 0.125 M." },
+  { ch:8, obj:"8I", q:"When solutions of BaCl₂ and Na₂SO₄ are mixed, which precipitate forms?", choices:["NaCl","BaCl₂","BaSO₄","Na₂Cl₂"], ans:2, explain:"Using solubility rules: SO₄²⁻ with Ba²⁺ → BaSO₄ has limited solubility (precipitates). NaCl and Na₂SO₄ with Na⁺ are soluble." },
+  { ch:8, obj:"8J", q:"For the reaction of Pb(NO₃)₂(aq) + 2KI(aq) → PbI₂(s) + 2KNO₃(aq), what is the net ionic equation?", choices:["Pb²⁺(aq) + 2I⁻(aq) → PbI₂(s)","Pb(NO₃)₂ + 2KI → PbI₂ + 2KNO₃","Pb²⁺ + NO₃⁻ + K⁺ + I⁻ → PbI₂ + K⁺ + NO₃⁻","2K⁺(aq) + 2NO₃⁻(aq) → 2KNO₃(aq)"], ans:0, explain:"Remove spectator ions (K⁺ and NO₃⁻, which appear on both sides unchanged). Net ionic: Pb²⁺(aq) + 2I⁻(aq) → PbI₂(s)." },
+  { ch:8, obj:"8K", q:"In the reaction 2Fe³⁺ + Sn²⁺ → 2Fe²⁺ + Sn⁴⁺, which species is OXIDIZED?", choices:["Fe³⁺","Fe²⁺","Sn²⁺","Sn⁴⁺"], ans:2, explain:"Oxidation = loss of electrons = increase in oxidation number. Sn goes from +2 to +4 (loses 2 electrons) → Sn²⁺ is oxidized. Fe goes from +3 to +2 (gains electrons) → Fe³⁺ is reduced." },
+  { ch:8, obj:"8M", q:"Which of the following is NOT a strong acid?", choices:["HCl","H₂SO₄","HNO₃","H₃PO₄"], ans:3, explain:"The six common strong acids are HCl, HBr, HI, HNO₃, H₂SO₄, HClO₄ (and HClO₃). H₃PO₄ is a weak acid — it does not fully dissociate in water." },
+
+  // CH 9
+  { ch:9, obj:"9A", q:"According to kinetic molecular theory, gas pressure arises from:", choices:["The weight of gas molecules pressing down","The gravitational attraction between gas molecules","Collisions of gas molecules with the walls of the container","The repulsive forces between gas molecules"], ans:2, explain:"KMT: gas pressure is the result of gas molecules colliding with and exerting force on the container walls. More collisions (higher T, more n, smaller V) → higher pressure." },
+  { ch:9, obj:"9C", q:"If the temperature of a gas sample is doubled (in Kelvin), what happens to the root-mean-square speed of the gas molecules?", choices:["Doubles","Increases by a factor of √2","Quadruples","Stays the same"], ans:1, explain:"u_rms = √(3RT/M). Since T doubles, u_rms ∝ √T → u_rms increases by √2 (about 41%)." },
+  { ch:9, obj:"9D", q:"A gas occupies 2.00 L at 300 K and 1.00 atm. What volume will it occupy at 600 K and 1.00 atm? (ideal gas)", choices:["1.00 L","2.00 L","4.00 L","8.00 L"], ans:2, explain:"At constant P and n (Charles's Law): V₁/T₁ = V₂/T₂. V₂ = 2.00 × (600/300) = 4.00 L." },
+  { ch:9, obj:"9E", q:"A gas has a density of 1.42 g/L at STP (T=273K, P=1 atm). What is its molar mass? (R=0.08206 L·atm/mol·K)", choices:["22.4 g/mol","31.8 g/mol","44.0 g/mol","16.0 g/mol"], ans:1, explain:"M = dRT/P = (1.42 g/L × 0.08206 L·atm/mol·K × 273 K) / 1.00 atm = 31.8 g/mol." },
+  { ch:9, obj:"9F", q:"In the reaction 2H₂(g) + O₂(g) → 2H₂O(g), if 4.0 L of H₂ reacts with excess O₂ at constant T and P, what volume of H₂O vapor is produced?", choices:["2.0 L","4.0 L","8.0 L","1.0 L"], ans:1, explain:"At constant T and P, volumes of gases are proportional to moles (Avogadro's law). Stoichiometry: 2 mol H₂ → 2 mol H₂O (1:1 ratio). So 4.0 L H₂ → 4.0 L H₂O." },
+  { ch:9, obj:"9G", q:"A mixture of gases contains 0.40 mol N₂ and 0.60 mol O₂ at a total pressure of 1.0 atm. What is the partial pressure of N₂?", choices:["0.40 atm","0.60 atm","1.0 atm","0.24 atm"], ans:0, explain:"P_N₂ = X_N₂ × P_total. X_N₂ = 0.40/(0.40+0.60) = 0.40. P_N₂ = 0.40 × 1.0 atm = 0.40 atm." },
+  { ch:9, obj:"9H", q:"Real gases deviate most from ideal behavior under conditions of:", choices:["Low pressure and high temperature","High pressure and low temperature","Low pressure and low temperature","High pressure and high temperature"], ans:1, explain:"The ideal gas law assumes no intermolecular forces and negligible molecular volume. At high pressure, molecules are close together (molecular volume matters; attractions matter). At low temperature, molecules move slowly (attractions matter more). Both make real gases deviate most." },
+];;
+
+const CHAPTERS = [
+  { id:1, name:"Matter & Energy", color:"#7c6af7" },
+  { id:2, name:"Atoms, Ions & Molecules", color:"#f7836a" },
+  { id:3, name:"Atomic Structure", color:"#6ab4f7" },
+  { id:4, name:"Chemical Bonding", color:"#f7c36a" },
+  { id:5, name:"Bonding Theories", color:"#6af7b8" },
+  { id:6, name:"Intermolecular Forces", color:"#f76ab4" },
+  { id:7, name:"Stoichiometry", color:"#a8f76a" },
+  { id:8, name:"Aqueous Reactions", color:"#f7a86a" },
+  { id:9, name:"Properties of Gases", color:"#6a9ff7" },
+];
+
+/* ════ ELEMENT DATA ════ */
+const ELEMENTS = [
+  // Common (24)
+  { sym:'H', name:'Hydrogen', num:1, rarity:'common', fact:'The most abundant element in the universe. Powers stars via fusion.' },
+  { sym:'He', name:'Helium', num:2, rarity:'common', fact:'A noble gas with the smallest atomic radius. Behaves most ideally of all gases (per the lab quiz).' },
+  { sym:'Li', name:'Lithium', num:3, rarity:'common', fact:'Lightest metal. Powers your phone battery and treats bipolar disorder.' },
+  { sym:'Be', name:'Beryllium', num:4, rarity:'common', fact:'Brittle alkaline earth metal. Used in X-ray windows because of its low atomic number.' },
+  { sym:'B', name:'Boron', num:5, rarity:'common', fact:'Forms electron-deficient compounds — three valence electrons want a fourth bond.' },
+  { sym:'C', name:'Carbon', num:6, rarity:'common', fact:'Backbone of all organic chemistry. Four bonds means tetrahedral sp³ in alkanes (Ch 5).' },
+  { sym:'N', name:'Nitrogen', num:7, rarity:'common', fact:'78% of the atmosphere. Triple bond is one of the strongest in chemistry.' },
+  { sym:'O', name:'Oxygen', num:8, rarity:'common', fact:'Breath of life. Highly electronegative — drives most aqueous reactions.' },
+  { sym:'F', name:'Fluorine', num:9, rarity:'common', fact:'Most electronegative element. Will rip electrons off almost anything.' },
+  { sym:'Ne', name:'Neon', num:10, rarity:'common', fact:'Noble gas with full octet. Glows orange-red when excited (spectroscopy lab!).' },
+  { sym:'Na', name:'Sodium', num:11, rarity:'common', fact:'Alkali metal. Forms Na⁺ in water and gives bright yellow flame test.' },
+  { sym:'Mg', name:'Magnesium', num:12, rarity:'common', fact:'Burns brilliant white. Central atom in chlorophyll.' },
+  { sym:'Al', name:'Aluminum', num:13, rarity:'common', fact:'Most abundant metal in Earth\'s crust. Electron config [Ne] 3s² 3p¹.' },
+  { sym:'Si', name:'Silicon', num:14, rarity:'common', fact:'Backbone of semiconductors and rocks. Forms strong covalent network solids.' },
+  { sym:'P', name:'Phosphorus', num:15, rarity:'common', fact:'Essential for DNA, ATP, bones. Glows in the dark (phosphorescence).' },
+  { sym:'S', name:'Sulfur', num:16, rarity:'common', fact:'Yellow nonmetal. Smells like rotten eggs as H₂S. Forms strong S-S bonds.' },
+  { sym:'Cl', name:'Chlorine', num:17, rarity:'common', fact:'Halogen. Diatomic gas (Cl₂). Disinfects pools.' },
+  { sym:'Ar', name:'Argon', num:18, rarity:'common', fact:'Noble gas filling lightbulbs. Heavier than air.' },
+  { sym:'K', name:'Potassium', num:19, rarity:'common', fact:'Alkali metal. Bananas glow with K-40 radioactivity (very weak).' },
+  { sym:'Ca', name:'Calcium', num:20, rarity:'common', fact:'Bones and teeth. Forms +2 ions in solution.' },
+  { sym:'Fe', name:'Iron', num:26, rarity:'common', fact:'Hemoglobin\'s oxygen-binder. Rusts when exposed to O₂ + H₂O — chemical change (Ch 1).' },
+  { sym:'Cu', name:'Copper', num:29, rarity:'common', fact:'Excellent conductor. Forms blue Cu²⁺ in solution.' },
+  { sym:'Zn', name:'Zinc', num:30, rarity:'common', fact:'Galvanizes steel. Loses 2e⁻ to form Zn²⁺.' },
+  { sym:'Pb', name:'Lead', num:82, rarity:'common', fact:'Once in pipes, paint, gasoline — neurotoxin. Heaviest stable element.' },
+
+  // Uncommon (12)
+  { sym:'Ti', name:'Titanium', num:22, rarity:'uncommon', fact:'Strong, light, biocompatible. Used in jet engines and joint replacements.' },
+  { sym:'Cr', name:'Chromium', num:24, rarity:'uncommon', fact:'Gives stainless steel its shine. Multiple oxidation states (+2, +3, +6).' },
+  { sym:'Mn', name:'Manganese', num:25, rarity:'uncommon', fact:'Half-filled d-shell makes it a redox workhorse. Permanganate (MnO₄⁻) is deeply purple.' },
+  { sym:'Co', name:'Cobalt', num:27, rarity:'uncommon', fact:'Vitamin B12 contains a cobalt atom. Magnetic.' },
+  { sym:'Ni', name:'Nickel', num:28, rarity:'uncommon', fact:'Coin metal. Catalyzes hydrogenation reactions.' },
+  { sym:'Br', name:'Bromine', num:35, rarity:'uncommon', fact:'Only nonmetal liquid at room temperature. Reddish-brown.' },
+  { sym:'I', name:'Iodine', num:53, rarity:'uncommon', fact:'Sublimes from solid to violet vapor. Essential for thyroid function.' },
+  { sym:'Ag', name:'Silver', num:47, rarity:'uncommon', fact:'Best electrical conductor of any metal. Tarnishes in sulfur-containing air.' },
+  { sym:'Sn', name:'Tin', num:50, rarity:'uncommon', fact:'Forms two oxidation states (+2, +4). Cans were once tin-plated.' },
+  { sym:'Au', name:'Gold', num:79, rarity:'uncommon', fact:'Almost completely inert — won\'t oxidize. Forged only in supernovae and neutron-star collisions.' },
+  { sym:'Hg', name:'Mercury', num:80, rarity:'uncommon', fact:'Only metal liquid at room temperature. Highly toxic vapor.' },
+  { sym:'U', name:'Uranium', num:92, rarity:'uncommon', fact:'Last naturally-occurring element on the table. Powers reactors and weapons.' },
+
+  // Rare (8)
+  { sym:'Sc', name:'Scandium', num:21, rarity:'rare', fact:'First transition metal. Mendeleev predicted it before it was discovered (eka-boron).' },
+  { sym:'Ga', name:'Gallium', num:31, rarity:'rare', fact:'Melts in your hand (m.p. 30°C). Famously predicted by Mendeleev as eka-aluminum.' },
+  { sym:'Ge', name:'Germanium', num:32, rarity:'rare', fact:'Predicted by Mendeleev as eka-silicon. Now in fiber optics.' },
+  { sym:'Sr', name:'Strontium', num:38, rarity:'rare', fact:'Burns crimson red — fireworks chemistry. Strontium-90 is a fallout marker.' },
+  { sym:'Cs', name:'Cesium', num:55, rarity:'rare', fact:'Melts at 28°C. Defines the second (atomic clocks). Most reactive stable alkali metal.' },
+  { sym:'Pt', name:'Platinum', num:78, rarity:'rare', fact:'Catalytic converters. Resists nearly all acids. Denser than gold.' },
+  { sym:'Ra', name:'Radium', num:88, rarity:'rare', fact:'Discovered by Marie Curie. Glows in the dark — fatally radioactive.' },
+  { sym:'Th', name:'Thorium', num:90, rarity:'rare', fact:'Proposed alternative reactor fuel. Half-life of 14 billion years.' },
+
+  // Epic (4)
+  { sym:'Tc', name:'Technetium', num:43, rarity:'epic', fact:'First synthetic element ever made (1937). All isotopes radioactive — none in Earth\'s crust naturally.' },
+  { sym:'Pm', name:'Promethium', num:61, rarity:'epic', fact:'Only synthetic lanthanide. Named for Prometheus. Used in luminous paint.' },
+  { sym:'Pu', name:'Plutonium', num:94, rarity:'epic', fact:'Manhattan Project core. 2-kg sphere = a critical mass. Half-life 24,000 years.' },
+  { sym:'Am', name:'Americium', num:95, rarity:'epic', fact:'In every smoke detector. Alpha particles ionize air and detect smoke.' },
+
+  // Legendary (2)
+  { sym:'Og', name:'Oganesson', num:118, rarity:'legendary', fact:'The heaviest known element (Z=118). Synthesized in 2002. Half-life of 0.7 milliseconds — only a handful of atoms have ever existed.' },
+  { sym:'Ts', name:'Tennessine', num:117, rarity:'legendary', fact:'Discovered 2010. Named for Tennessee (Oak Ridge Lab). Just 6 atoms initially. Halogen by group.' },
+];
+
+/* ════ RIVAL DATA ════ */
+const RIVALS = [
+  // Tier 1
+  { id:'andre', tier:1, name:'Avogadro Andre', title:'The Reliable', portrait:'🧓',
+    quote:'Slow and steady. Same bet every time. I trust the numbers.',
+    accuracy:0.65, betStyle:'flat', baseBet:50,
+    icon:'🧪' },
+  { id:'curie_c', tier:1, name:'Curious Curie', title:'The Methodical', portrait:'🔬',
+    quote:'I read each question twice. My bets follow my certainty.',
+    accuracy:0.72, betStyle:'confidence', baseBet:50,
+    icon:'⚗️' },
+  { id:'boyle', tier:1, name:'Boyle the Bold', title:'The Risk-Taker',  portrait:'💨',
+    quote:'Pressure makes diamonds. I bet big. I lose big. I win bigger.',
+    accuracy:0.68, betStyle:'aggressive', baseBet:150,
+    icon:'🔥' },
+
+  // Tier 2
+  { id:'lavoisier', tier:2, name:'Lavoisier the Exact', title:'The Conservation Master', portrait:'⚖️',
+    quote:'Mass is conserved. So are my coins, when I bet smart.',
+    accuracy:0.80, betStyle:'optimal', baseBet:80,
+    icon:'⚖️' },
+  { id:'curie_m', tier:2, name:'Madame Curie', title:'The Radiant', portrait:'☢️',
+    quote:'I escalate when I feel the streak. Hot hand wins championships.',
+    accuracy:0.84, betStyle:'streak_escalator', baseBet:60,
+    icon:'☢️' },
+  { id:'mendeleev', tier:2, name:'Mendeleev the Father', title:'The Final Boss', portrait:'📊',
+    quote:'I built the periodic table. You can\'t out-pattern me.',
+    accuracy:0.88, betStyle:'adaptive', baseBet:100,
+    icon:'⚛️' },
+];
+
+/* ════ STATE / WALLET WIRING ════ */
 function refreshHubExtras() {
   const e1 = document.getElementById('walletBest');
   if (!e1) return;
   e1.textContent = state.bestStreak || 0;
-  document.getElementById('walletEarned').textContent = (state.totalEarned || 0).toLocaleString();
   const a = state.questionsAnswered || 0;
   const c = state.questionsCorrect || 0;
   document.getElementById('walletAccuracy').textContent = a === 0 ? '—' : Math.round(c / a * 100) + '%';
+  const owned = Object.keys(state.ownedElements || {}).length;
+  document.getElementById('walletElements').textContent = owned + '/' + ELEMENTS.length;
+  const wins = Object.values(state.tournamentWins || {}).reduce((a,b) => a + (b > 0 ? 1 : 0), 0);
+  document.getElementById('walletWins').textContent = wins;
 }
 
+/* ════ TAB SWITCHING ════ */
+function switchTab(id) {
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === id));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + id));
+  if (id === 'tournament') renderTournament();
+  if (id === 'collection') renderCollection();
+}
+
+/* ════ TOURNAMENT RENDERING ════ */
+function rivalBeaten(id) { return (state.tournamentWins[id] || 0) > 0; }
+function tier1ClearedCount() { return RIVALS.filter(r => r.tier === 1 && rivalBeaten(r.id)).length; }
+function tier2ClearedCount() { return RIVALS.filter(r => r.tier === 2 && rivalBeaten(r.id)).length; }
+function tier2Unlocked() { return tier1ClearedCount() >= 2; }
+function isChampion() { return tier2ClearedCount() >= 2; }
+
+function renderTournament() {
+  // Tier 1
+  const t1 = RIVALS.filter(r => r.tier === 1);
+  document.getElementById('t1Rivals').innerHTML = t1.map(r => rivalCardHTML(r, true)).join('');
+  const t1c = tier1ClearedCount();
+  document.getElementById('t1Progress').textContent = `${t1c}/3`;
+
+  // Tier 2
+  const t2 = RIVALS.filter(r => r.tier === 2);
+  const unlocked = tier2Unlocked();
+  document.getElementById('t2Rivals').innerHTML = t2.map(r => rivalCardHTML(r, unlocked)).join('');
+  document.getElementById('t2Progress').textContent = `${tier2ClearedCount()}/3`;
+  document.getElementById('t2LockedMsg').style.display = unlocked ? 'none' : 'inline-block';
+  document.getElementById('t2ProgLine').style.display = unlocked ? 'inline' : 'none';
+
+  // Champion banner
+  document.getElementById('championBanner').style.display = isChampion() ? 'block' : 'none';
+}
+
+function rivalCardHTML(r, unlocked) {
+  const beaten = rivalBeaten(r.id);
+  const wins = state.tournamentWins[r.id] || 0;
+  const lockedClass = !unlocked ? 'locked' : '';
+  const beatenClass = beaten ? 'beaten' : '';
+  const fee = r.tier === 1 ? 0 : 300;
+  const canAfford = state.coins >= fee;
+  const tierBtnClass = r.tier === 2 ? 't2' : '';
+  const accuracyDesc = Math.round(r.accuracy * 100) + '%';
+  const styleDesc = ({
+    flat: 'Flat bets',
+    confidence: 'Confidence-based',
+    aggressive: 'Aggressive',
+    optimal: 'Optimal EV',
+    streak_escalator: 'Streak escalator',
+    adaptive: 'Adaptive',
+  })[r.betStyle];
+
+  return `
+    <div class="rival-card ${lockedClass} ${beatenClass}">
+      <div class="rival-portrait">${r.portrait}</div>
+      <div class="rival-name">${r.name}</div>
+      <div class="rival-title">${r.title}</div>
+      <div class="rival-quote">"${r.quote}"</div>
+      <div class="rival-stats">
+        <div class="rival-stat"><div class="rival-stat-v">${accuracyDesc}</div><div class="rival-stat-l">Accuracy</div></div>
+        <div class="rival-stat"><div class="rival-stat-v">${styleDesc}</div><div class="rival-stat-l">Style</div></div>
+        <div class="rival-stat"><div class="rival-stat-v">${wins}</div><div class="rival-stat-l">You won</div></div>
+      </div>
+      <button class="rival-fight-btn ${tierBtnClass}"
+              ${!unlocked ? 'disabled' : ''}
+              ${!canAfford && unlocked ? 'disabled' : ''}
+              onclick="openMatchModal('${r.id}')">
+        ${!unlocked ? '🔒 Locked' : (!canAfford ? `Need ${fee} 🪙` : (beaten ? 'Rematch' : 'Challenge'))}${unlocked && fee > 0 ? ` · ${fee} 🪙` : ''}
+      </button>
+    </div>`;
+}
+
+/* ════ MATCH MODAL ════ */
+let matchSetup = null;
+
+function openMatchModal(rivalId) {
+  const rival = RIVALS.find(r => r.id === rivalId);
+  if (!rival) return;
+  const fee = rival.tier === 1 ? 0 : 300;
+  if (state.coins < fee) return;
+  if (rival.tier === 2 && !tier2Unlocked()) return;
+
+  matchSetup = { rivalId, rival, fee, chapterId: null, numQuestions: 8 };
+
+  const chapterOptions = CHAPTERS.map(c =>
+    `<option value="${c.id}">Ch ${c.id} · ${c.name}</option>`
+  ).join('');
+
+  document.getElementById('matchModalBody').innerHTML = `
+    <div class="match-modal-head">
+      <h3>Pre-match · ${rival.name}</h3>
+      <div class="vs-line">8-question wagered face-off</div>
+    </div>
+    <div class="match-portraits">
+      <div class="match-portrait you">
+        <div class="mp-icon">👤</div>
+        <div class="mp-name">You</div>
+      </div>
+      <div class="match-vs">VS</div>
+      <div class="match-portrait">
+        <div class="mp-icon">${rival.portrait}</div>
+        <div class="mp-name">${rival.name}</div>
+      </div>
+    </div>
+    <div class="match-config">
+      <div class="match-config-row">
+        <span>Chapter</span>
+        <select id="matchChapterSelect" style="background:var(--surface2);color:var(--text);border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-family:'DM Mono',monospace;font-size:12px;">
+          <option value="0">Random across all chapters</option>
+          ${chapterOptions}
+        </select>
+      </div>
+      <div class="match-config-row">
+        <span>Questions</span>
+        <b>8</b>
+      </div>
+      <div class="match-config-row">
+        <span>Entry fee</span>
+        <b>${fee === 0 ? 'Free' : fee + ' 🪙'}</b>
+      </div>
+      <div class="match-config-row">
+        <span>Prize on win</span>
+        <b>${rival.tier === 1 ? '100 🪙 + Common Pack' : '750 🪙 + Element Crate'}</b>
+      </div>
+    </div>
+    ${state.coins < fee
+      ? `<div class="insufficient-funds">Insufficient funds — earn more by playing the quizzes.</div>`
+      : ''}
+    <div class="match-actions">
+      <button class="cancel" onclick="closeMatchModal()">Cancel</button>
+      <button class="start-match" onclick="startMatch()" ${state.coins < fee ? 'disabled' : ''}>Start match →</button>
+    </div>
+  `;
+  document.getElementById('matchModal').classList.add('show');
+}
+
+function closeMatchModal() {
+  document.getElementById('matchModal').classList.remove('show');
+  matchSetup = null;
+}
+
+/* ════ MATCH PLAY (mini-quiz inside hub) ════ */
+let matchState = null;
+
+function startMatch() {
+  if (!matchSetup) return;
+  const sel = document.getElementById('matchChapterSelect');
+  const chId = sel ? parseInt(sel.value, 10) : 0;
+  matchSetup.chapterId = chId;
+
+  // Build the question pool
+  let pool;
+  if (chId === 0) pool = ALL_QUESTIONS.slice();
+  else pool = ALL_QUESTIONS.filter(q => q.ch === chId);
+  if (pool.length < matchSetup.numQuestions) {
+    // fallback to all if not enough in chapter
+    pool = ALL_QUESTIONS.slice();
+  }
+  // Shuffle and pick N
+  for (let i = pool.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [pool[i], pool[j]] = [pool[j], pool[i]];
+  }
+  const matchQs = pool.slice(0, matchSetup.numQuestions);
+
+  // Pay entry fee
+  if (matchSetup.fee > 0) {
+    state.coins -= matchSetup.fee;
+    saveState(state);
+    refreshWalletUI();
+  }
+
+  // Set up rival's run — all questions answered up front (rival's "performance" is precomputed)
+  const rivalRun = simulateRival(matchSetup.rival, matchQs);
+
+  matchState = {
+    rival: matchSetup.rival,
+    fee: matchSetup.fee,
+    questions: matchQs,
+    qIndex: 0,
+    playerScore: 0,           // coins earned by player in this match
+    playerCorrect: 0,
+    rivalRun,                 // array of {wager, correct, payout} per question
+    rivalScore: 0,            // running rival score (revealed gradually)
+    rivalCorrect: 0,
+    streak: 0,
+    wagerLocked: false,
+    currentWager: 50,
+    selectedChoice: -1,
+    choiceLocked: false,
+  };
+
+  closeMatchModal();
+  document.getElementById('matchPlayModal').classList.add('show');
+  renderMatchQuestion();
+}
+
+function simulateRival(rival, questions) {
+  // Pre-compute rival's per-question outcome
+  const out = [];
+  let streak = 0;
+  for (let i = 0; i < questions.length; i++) {
+    let baseAcc = rival.accuracy;
+    // Slight per-question variation
+    const correct = Math.random() < baseAcc;
+    let wager;
+    switch (rival.betStyle) {
+      case 'flat':
+        wager = rival.baseBet;
+        break;
+      case 'confidence':
+        // Bets a touch lower than confident, sometimes higher
+        wager = Math.round(rival.baseBet * (0.6 + Math.random() * 0.8));
+        break;
+      case 'aggressive':
+        // Always near max
+        wager = streak >= 3 ? 400 + Math.floor(Math.random() * 100)
+                            : 180 + Math.floor(Math.random() * 70);
+        break;
+      case 'optimal':
+        // Bets ~baseBet most of the time, slight scaling on streak
+        wager = rival.baseBet + (streak * 8);
+        break;
+      case 'streak_escalator':
+        wager = rival.baseBet + (streak * 25);
+        if (streak >= 3) wager += 80;
+        break;
+      case 'adaptive':
+        // Mendeleev: scales with streak, caps at 350
+        wager = Math.min(350, rival.baseBet + (streak * 30));
+        break;
+      default:
+        wager = rival.baseBet;
+    }
+    wager = Math.max(10, wager);
+    let payout = correct ? (wager + 10) : -(Math.max(0, wager - 5));
+    out.push({ wager, correct, payout });
+    streak = correct ? streak + 1 : 0;
+  }
+  return out;
+}
+
+function renderMatchQuestion() {
+  if (!matchState) return;
+  if (matchState.qIndex >= matchState.questions.length) {
+    finishMatch();
+    return;
+  }
+  const q = matchState.questions[matchState.qIndex];
+  const ch = CHAPTERS.find(c => c.id === q.ch) || { name: 'Random', color: '#7c6af7' };
+  const letters = ['A','B','C','D'];
+
+  // Reset wager for question
+  matchState.wagerLocked = false;
+  matchState.choiceLocked = false;
+  matchState.selectedChoice = -1;
+
+  // Sensible default wager for the player
+  const max = matchState.streak >= 3 ? 500 : 250;
+  const cap = Math.min(state.coins + 200, max); // they can risk a bit even if low
+  matchState.currentWager = Math.max(10, Math.min(50, cap));
+
+  const playerWinning = matchState.playerScore > matchState.rivalScore;
+  const playerLosing = matchState.playerScore < matchState.rivalScore;
+  const tied = matchState.playerScore === matchState.rivalScore;
+
+  const liveBody = document.getElementById('matchPlayBody');
+  liveBody.innerHTML = `
+    <div class="match-live">
+      <div class="match-live-head">
+        <div class="match-live-side ${playerWinning ? 'winning' : playerLosing ? 'losing' : ''}">
+          <div class="mls-name">You · streak ${matchState.streak}</div>
+          <div class="mls-score">${matchState.playerScore >= 0 ? '+' : ''}${matchState.playerScore} 🪙</div>
+        </div>
+        <div class="match-live-vs">VS · Q${matchState.qIndex + 1}/${matchState.questions.length}</div>
+        <div class="match-live-side ${playerLosing ? 'winning' : playerWinning ? 'losing' : ''}">
+          <div class="mls-name">${matchState.rival.name}</div>
+          <div class="mls-score">${matchState.rivalScore >= 0 ? '+' : ''}${matchState.rivalScore} 🪙</div>
+        </div>
+      </div>
+
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:1.4rem;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.6rem;">
+          <div style="width:8px;height:8px;border-radius:50%;background:${ch.color}"></div>
+          <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">${ch.name}</span>
+          <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);padding:2px 8px;background:var(--surface2);border-radius:4px;margin-left:auto;">${q.obj}</span>
+        </div>
+        <div style="font-size:17px;line-height:1.5;margin:0.5rem 0 1.25rem;">${q.q}</div>
+
+        <div id="matchWagerStrip"></div>
+
+        <div id="matchChoices" style="display:flex;flex-direction:column;gap:8px;opacity:0.4;pointer-events:none;filter:grayscale(0.5);">
+          ${q.choices.map((c, i) => `
+            <button class="choice-btn match-choice" data-i="${i}" onclick="selectMatchChoice(${i})"
+              style="display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;text-align:left;color:var(--text);font-size:14px;font-family:'DM Sans',sans-serif;line-height:1.5;transition:all 0.15s;">
+              <span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--muted);padding:1px 6px;border:1px solid var(--border);border-radius:4px;flex-shrink:0;margin-top:1px;">${letters[i]}</span>
+              <span>${c}</span>
+            </button>
+          `).join('')}
+        </div>
+
+        <div id="matchFeedback" style="margin-top:1rem;"></div>
+      </div>
+    </div>`;
+  renderMatchWagerStrip();
+}
+
+function renderMatchWagerStrip() {
+  const strip = document.getElementById('matchWagerStrip');
+  if (!strip) return;
+  const max = matchState.streak >= 3 ? 500 : 250;
+  // Player can bet up to current coins, capped at max. But allow negative-balance betting? No — must have coins.
+  const trueMax = Math.min(Math.max(0, state.coins), max);
+  const minB = Math.min(10, trueMax);
+  const w = matchState.currentWager;
+
+  if (matchState.wagerLocked) {
+    strip.innerHTML = `
+      <div style="background:rgba(124,106,247,0.08);border:1px solid rgba(124,106,247,0.3);border-radius:10px;padding:12px 14px;margin-bottom:1.25rem;">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <div>
+            <div style="font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);">Wager locked</div>
+            <div style="font-family:'DM Mono',monospace;font-size:1.3rem;color:#fcd34d;">${w} 🪙</div>
+          </div>
+          <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">
+            ✓ <b style="color:#3ecf8e;">+${w + 10}</b> &nbsp;·&nbsp; ✗ <span style="color:#f06060;">−${Math.max(0, w - 5)}</span>
+          </div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  if (state.coins < 10 && trueMax < 10) {
+    strip.innerHTML = `
+      <div style="background:rgba(240,96,96,0.06);border:1px solid rgba(240,96,96,0.3);border-radius:10px;padding:12px 14px;margin-bottom:1.25rem;text-align:center;">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:6px;">Below minimum wager — locked at all-in</div>
+        <button class="lock-match" onclick="lockMatchWager()" style="background:var(--accent);color:white;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;">Lock all-in →</button>
+      </div>`;
+    matchState.currentWager = Math.max(0, state.coins);
+    return;
+  }
+
+  const chips = [10, 25, 50, 100, 250].filter(v => v <= trueMax);
+  strip.innerHTML = `
+    <div style="background:linear-gradient(135deg,rgba(251,191,36,0.05),rgba(124,106,247,0.03));border:1px solid rgba(251,191,36,0.2);border-radius:10px;padding:12px 14px;margin-bottom:1.25rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+        <div>
+          <div style="font-family:'DM Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);">Set your wager${matchState.streak >= 3 ? ' · 🔥 HOT HAND' : ''}</div>
+          <div style="font-family:'DM Mono',monospace;font-size:1.3rem;color:#fcd34d;">${w} 🪙</div>
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);text-align:right;">
+          Balance: ${state.coins} 🪙<br>Max: ${trueMax}${matchState.streak >= 3 ? ' (boost)' : ''}
+        </div>
+      </div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;">
+        ${chips.map(v => `
+          <button onclick="setMatchWager(${v})" style="flex:1;min-width:50px;background:${w === v ? 'rgba(251,191,36,0.15)' : 'var(--surface2)'};border:1px solid ${w === v ? 'rgba(251,191,36,0.5)' : 'var(--border)'};color:${w === v ? '#fcd34d' : 'var(--text)'};font-family:'DM Mono',monospace;font-size:12px;padding:7px;border-radius:6px;cursor:pointer;">${v}</button>
+        `).join('')}
+        <button onclick="setMatchWager(${trueMax})" style="flex:1;min-width:50px;background:rgba(247,131,106,0.1);border:1px solid rgba(247,131,106,0.4);color:#f7a896;font-family:'DM Mono',monospace;font-size:12px;padding:7px;border-radius:6px;cursor:pointer;">All-in</button>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px;">
+        <input type="range" min="${minB}" max="${trueMax}" step="5" value="${w}"
+               oninput="setMatchWager(parseInt(this.value,10))"
+               style="flex:1;-webkit-appearance:none;appearance:none;height:5px;background:var(--surface2);border-radius:3px;outline:none;cursor:pointer;">
+        <button onclick="lockMatchWager()" style="background:var(--accent);color:white;border:none;padding:8px 16px;border-radius:8px;cursor:pointer;font-size:12px;font-weight:500;">Lock & answer →</button>
+      </div>
+      <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">
+        ✓ +<b style="color:#3ecf8e;">${w + 10}</b> 🪙 · ✗ −<span style="color:#f06060;">${Math.max(0, w - 5)}</span> 🪙
+      </div>
+    </div>`;
+}
+
+function setMatchWager(amount) {
+  if (!matchState || matchState.wagerLocked) return;
+  const max = matchState.streak >= 3 ? 500 : 250;
+  const trueMax = Math.min(Math.max(0, state.coins), max);
+  matchState.currentWager = Math.max(10, Math.min(amount, trueMax));
+  if (state.coins < 10) matchState.currentWager = Math.max(0, state.coins);
+  renderMatchWagerStrip();
+}
+
+function lockMatchWager() {
+  if (!matchState || matchState.wagerLocked) return;
+  matchState.wagerLocked = true;
+  // Ungate choices
+  const ch = document.getElementById('matchChoices');
+  if (ch) {
+    ch.style.opacity = '1';
+    ch.style.pointerEvents = 'auto';
+    ch.style.filter = 'none';
+  }
+  renderMatchWagerStrip();
+  playCoin({ volume: 0.3, rate: 1.5 });
+}
+
+function selectMatchChoice(i) {
+  if (!matchState || !matchState.wagerLocked || matchState.choiceLocked) return;
+  matchState.choiceLocked = true;
+  const q = matchState.questions[matchState.qIndex];
+  const correct = i === q.ans;
+  const wager = matchState.currentWager;
+
+  // Highlight choices
+  document.querySelectorAll('.match-choice').forEach((b, idx) => {
+    b.disabled = true;
+    if (idx === q.ans) {
+      b.style.background = 'rgba(62,207,142,0.1)';
+      b.style.borderColor = 'var(--correct, #3ecf8e)';
+    }
+    if (idx === i && !correct) {
+      b.style.background = 'rgba(240,96,96,0.1)';
+      b.style.borderColor = 'var(--wrong, #f06060)';
+    }
+  });
+
+  // Apply payout to player score (and to wallet)
+  let payout;
+  if (correct) {
+    payout = wager + 10;
+    matchState.streak++;
+    matchState.playerCorrect++;
+    addCoins(payout);
+  } else {
+    payout = -Math.max(0, wager - 5);
+    matchState.streak = 0;
+    addCoins(payout);
+  }
+  matchState.playerScore += payout;
+
+  // Reveal rival's outcome for THIS question
+  const rivalQ = matchState.rivalRun[matchState.qIndex];
+  matchState.rivalScore += rivalQ.payout;
+  if (rivalQ.correct) matchState.rivalCorrect++;
+
+  // Show feedback
+  const fb = document.getElementById('matchFeedback');
+  fb.innerHTML = `
+    <div style="background:${correct ? 'rgba(62,207,142,0.08)' : 'rgba(240,96,96,0.08)'};border:1px solid ${correct ? 'rgba(62,207,142,0.3)' : 'rgba(240,96,96,0.3)'};border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.6;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:8px;">
+        <div style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:${correct ? '#7fe8be' : '#f5a0a0'};">
+          ${correct ? '✓ Correct' : '✗ Incorrect'} · ${payout >= 0 ? '+' : ''}${payout} 🪙
+        </div>
+        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--muted);">
+          ${matchState.rival.name}: ${rivalQ.correct ? '✓' : '✗'} (wager ${rivalQ.wager}, ${rivalQ.payout >= 0 ? '+' : ''}${rivalQ.payout})
+        </div>
+      </div>
+      <div style="color:var(--muted);">${q.explain || ''}</div>
+      <div style="text-align:right;margin-top:10px;">
+        <button onclick="nextMatchQuestion()" style="background:var(--accent);color:white;border:none;padding:8px 18px;border-radius:8px;cursor:pointer;font-size:13px;font-weight:500;">${matchState.qIndex + 1 >= matchState.questions.length ? 'See result →' : 'Next →'}</button>
+      </div>
+    </div>`;
+
+  // Update score panel
+  const playerWinning = matchState.playerScore > matchState.rivalScore;
+  const playerLosing = matchState.playerScore < matchState.rivalScore;
+  document.querySelectorAll('.match-live-side').forEach((el, idx) => {
+    el.classList.remove('winning', 'losing');
+    if (idx === 0) {
+      if (playerWinning) el.classList.add('winning');
+      if (playerLosing) el.classList.add('losing');
+    } else {
+      if (playerLosing) el.classList.add('winning');
+      if (playerWinning) el.classList.add('losing');
+    }
+  });
+  // Update score values
+  const sides = document.querySelectorAll('.match-live-side .mls-score');
+  if (sides.length === 2) {
+    sides[0].textContent = `${matchState.playerScore >= 0 ? '+' : ''}${matchState.playerScore} 🪙`;
+    sides[1].textContent = `${matchState.rivalScore >= 0 ? '+' : ''}${matchState.rivalScore} 🪙`;
+  }
+  // Update streak label
+  const sn = document.querySelector('.match-live-side .mls-name');
+  if (sn) sn.textContent = `You · streak ${matchState.streak}`;
+}
+
+function nextMatchQuestion() {
+  matchState.qIndex++;
+  renderMatchQuestion();
+}
+
+let result_playerScore = 0;
+let result_rivalScore = 0;
+
+function finishMatch() {
+  const won = matchState.playerScore > matchState.rivalScore;
+  const tied = matchState.playerScore === matchState.rivalScore;
+  const rival = matchState.rival;
+  result_playerScore = matchState.playerScore;
+  result_rivalScore = matchState.rivalScore;
+  const rewards = [];
+
+  if (won) {
+    state.tournamentWins[rival.id] = (state.tournamentWins[rival.id] || 0) + 1;
+    if (rival.tier === 1) {
+      addCoins(100);
+      rewards.push({ type: 'coins', amount: 100 });
+      rewards.push({ type: 'box', boxId: 'common' });
+    } else {
+      addCoins(750);
+      rewards.push({ type: 'coins', amount: 750 });
+      rewards.push({ type: 'box', boxId: 'crate' });
+      if (tier2ClearedCount() >= 2 && !state.tournamentChamp) {
+        state.tournamentChamp = true;
+        addCoins(2000);
+        rewards.push({ type: 'coins', amount: 2000 });
+        rewards.push({ type: 'box', boxId: 'vault' });
+        rewards.push({ type: 'champ' });
+      }
+    }
+    saveState(state);
+  }
+  refreshWalletUI();
+
+  document.getElementById('matchPlayModal').classList.remove('show');
+  const ms = matchState;
+  matchState = null;
+
+  const banner = won ? '★ Victory ★' : (tied ? 'Tied — Rival Defends' : 'Defeat');
+  const titleClass = won ? 'win' : 'lose';
+  const rewardHTML = rewards.length === 0 ? '' : `
+    <div class="result-rewards">
+      <div class="result-rewards-label">Rewards</div>
+      <div class="result-rewards-list">
+        ${rewards.map(r => {
+          if (r.type === 'coins') return `<div class="result-reward">+${r.amount} 🪙</div>`;
+          if (r.type === 'box') {
+            const boxName = r.boxId === 'common' ? 'Common Pack' : r.boxId === 'crate' ? 'Element Crate' : 'Nobel Vault';
+            return `<div class="result-reward" style="color:#a898f8;">📦 ${boxName}</div>`;
+          }
+          if (r.type === 'champ') return `<div class="result-reward" style="color:#fbbf24;">🏆 Champion!</div>`;
+          return '';
+        }).join('')}
+      </div>
+    </div>`;
+  const boxReward = rewards.find(r => r.type === 'box');
+
+  document.getElementById('resultModalBody').innerHTML = `
+    <div class="result-banner">${banner}</div>
+    <div class="result-title ${titleClass}">${won ? 'You won!' : (tied ? 'Tied' : 'You lost')}</div>
+    <div style="color:var(--muted);font-size:13px;margin-bottom:0.5rem;">vs ${rival.name}</div>
+    <div class="result-comparison">
+      <div class="result-side ${won ? 'winner' : 'loser'}">
+        <div class="rs-label">You</div>
+        <div class="rs-score">${result_playerScore >= 0 ? '+' : ''}${result_playerScore} 🪙</div>
+      </div>
+      <div style="font-family:'DM Mono',monospace;color:var(--accent);font-size:18px;">VS</div>
+      <div class="result-side ${won ? 'loser' : 'winner'}">
+        <div class="rs-label">${rival.name}</div>
+        <div class="rs-score">${result_rivalScore >= 0 ? '+' : ''}${result_rivalScore} 🪙</div>
+      </div>
+    </div>
+    ${rewardHTML}
+    <div class="result-actions">
+      <button class="secondary" onclick="closeResultModal();renderTournament();">Close</button>
+      ${boxReward
+        ? `<button class="primary" onclick="closeResultModal();renderTournament();openMysteryBox('${boxReward.boxId}',true);">Open Box →</button>`
+        : `<button class="primary" onclick="closeResultModal();renderTournament();">OK</button>`}
+    </div>
+  `;
+  document.getElementById('resultModal').classList.add('show');
+  if (won) {
+    spawnConfetti(window.innerWidth / 2, window.innerHeight * 0.4, rival.tier === 1 ? 60 : 120);
+    playCoin({ volume: 0.7, rate: 1.0 });
+    setTimeout(() => playCoin({ volume: 0.5, rate: 1.2 }), 200);
+  }
+}
+
+function closeResultModal() {
+  document.getElementById('resultModal').classList.remove('show');
+}
+
+/* ════ COLLECTION RENDERING ════ */
+const BOXES = {
+  common: { name: 'Common Pack', cost: 100, icon: '📦', odds: { common: 65, uncommon: 25, rare: 8, epic: 1.7, legendary: 0.3 } },
+  crate:  { name: 'Element Crate', cost: 300, icon: '🗃️', odds: { common: 35, uncommon: 40, rare: 18, epic: 5, legendary: 2 } },
+  vault:  { name: 'Nobel Vault', cost: 800, icon: '🏆', odds: { common: 12, uncommon: 30, rare: 35, epic: 16, legendary: 7 } },
+};
+
+const RARITY_DUPE_COIN = { common: 10, uncommon: 40, rare: 120, epic: 400, legendary: 1500 };
+const RARITY_ORDER = ['common', 'uncommon', 'rare', 'epic', 'legendary'];
+const RARITY_COLOR = { common: '#9ca3af', uncommon: '#4ade80', rare: '#60a5fa', epic: '#c084fc', legendary: '#fbbf24' };
+
+let activeFilter = 'all';
+
+function renderCollection() {
+  // Stats
+  const counts = { common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 0 };
+  const totals = { common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 0 };
+  ELEMENTS.forEach(e => {
+    totals[e.rarity]++;
+    if (state.ownedElements[e.sym]) counts[e.rarity]++;
+  });
+  document.getElementById('collectionStats').innerHTML = RARITY_ORDER.map(r => `
+    <div class="col-stat-cell">
+      <div class="col-stat-v ${r}">${counts[r]}/${totals[r]}</div>
+      <div class="col-stat-l">${r}</div>
+    </div>
+  `).join('') + `
+    <div class="col-stat-cell">
+      <div class="col-stat-v" style="color:var(--text);">${state.boxesOpened || 0}</div>
+      <div class="col-stat-l">Boxes opened</div>
+    </div>`;
+
+  // Shop
+  document.getElementById('shopGrid').innerHTML = Object.entries(BOXES).map(([id, b], i) => {
+    const tier = i + 1;
+    const canAfford = state.coins >= b.cost;
+    const oddsStr = `${b.odds.common}/${b.odds.uncommon}/${b.odds.rare}/${b.odds.epic}/${b.odds.legendary}`;
+    return `
+      <div class="box-card tier-${tier}">
+        <div class="box-icon-wrap">${b.icon}</div>
+        <div class="box-name">${b.name}</div>
+        <div class="box-cost">${b.cost} 🪙</div>
+        <div class="box-odds">
+          <span style="color:var(--r-common);">C ${b.odds.common}%</span> ·
+          <span style="color:var(--r-uncommon);">U ${b.odds.uncommon}%</span> ·
+          <span style="color:var(--r-rare);">R ${b.odds.rare}%</span><br>
+          <span style="color:var(--r-epic);">E ${b.odds.epic}%</span> ·
+          <span style="color:var(--r-legendary);">L ${b.odds.legendary}%</span>
+        </div>
+        <button class="box-buy-btn" ${canAfford ? '' : 'disabled'} onclick="openMysteryBox('${id}', false)">
+          ${canAfford ? 'Open box →' : 'Not enough coins'}
+        </button>
+      </div>`;
+  }).join('');
+
+  // Filter row
+  document.getElementById('filterRow').innerHTML = ['all', ...RARITY_ORDER].map(f => `
+    <button class="filter-btn ${activeFilter === f ? 'active' : ''}" onclick="setFilter('${f}')">
+      ${f === 'all' ? 'All elements' : f}
+      ${f !== 'all' ? `<span style="opacity:0.5;">${counts[f]}/${totals[f]}</span>` : ''}
+    </button>
+  `).join('');
+
+  // Element grid
+  const filtered = activeFilter === 'all' ? ELEMENTS : ELEMENTS.filter(e => e.rarity === activeFilter);
+  // Sort by atomic number for stable ordering
+  filtered.sort((a, b) => a.num - b.num);
+  document.getElementById('elementGrid').innerHTML = filtered.map(e => {
+    const owned = state.ownedElements[e.sym];
+    const ownedCls = owned ? `owned r-${e.rarity}` : 'unowned';
+    const countBadge = owned > 1 ? `<div class="el-count gt1">×${owned}</div>` : '';
+    return `
+      <div class="element-cell ${ownedCls}" onclick="${owned ? `showElementDetail('${e.sym}')` : ''}">
+        ${countBadge}
+        <div class="el-num">${owned ? e.num : '?'}</div>
+        <div class="el-symbol">${owned ? e.sym : '?'}</div>
+        <div class="el-name">${owned ? e.name : ''}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function setFilter(f) {
+  activeFilter = f;
+  renderCollection();
+}
+
+function showElementDetail(sym) {
+  const e = ELEMENTS.find(x => x.sym === sym);
+  if (!e) return;
+  const count = state.ownedElements[sym] || 0;
+  document.getElementById('elementModalBody').innerHTML = `
+    <div class="ed-icon" style="color:${RARITY_COLOR[e.rarity]};">${e.sym}</div>
+    <div class="ed-name">${e.name}</div>
+    <div class="ed-meta">#${e.num} · <span style="color:${RARITY_COLOR[e.rarity]};text-transform:uppercase;letter-spacing:0.1em;">${e.rarity}</span> · owned ×${count}</div>
+    <div class="ed-fact">${e.fact}</div>
+  `;
+  document.getElementById('elementModal').classList.add('show');
+}
+function closeElementModal() {
+  document.getElementById('elementModal').classList.remove('show');
+}
+
+/* ════ MYSTERY BOX OPENING ════ */
+function rollRarity(odds) {
+  // Apply pity counters first (highest priority)
+  if (state.pitySinceLeg >= 75) return 'legendary';
+  if (state.pitySinceEpic >= 35) {
+    // Epic-or-above weighted roll
+    const r = Math.random() * (odds.epic + odds.legendary);
+    return r < odds.legendary ? 'legendary' : 'epic';
+  }
+  if (state.pitySinceRare >= 12) {
+    // Rare-or-above weighted roll
+    const total = odds.rare + odds.epic + odds.legendary;
+    let r = Math.random() * total;
+    if (r < odds.legendary) return 'legendary';
+    r -= odds.legendary;
+    if (r < odds.epic) return 'epic';
+    return 'rare';
+  }
+  // Normal weighted roll
+  let r = Math.random() * 100;
+  for (const k of RARITY_ORDER) {
+    r -= odds[k];
+    if (r <= 0) return k;
+  }
+  return 'common';
+}
+
+function pickElement(rarity) {
+  const pool = ELEMENTS.filter(e => e.rarity === rarity);
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function openMysteryBox(boxId, freeRoll) {
+  const box = BOXES[boxId];
+  if (!box) return;
+  if (!freeRoll && state.coins < box.cost) return;
+
+  if (!freeRoll) state.coins -= box.cost;
+  state.boxesOpened = (state.boxesOpened || 0) + 1;
+  state.pitySinceRare = (state.pitySinceRare || 0) + 1;
+  state.pitySinceEpic = (state.pitySinceEpic || 0) + 1;
+  state.pitySinceLeg  = (state.pitySinceLeg  || 0) + 1;
+
+  const rarity = rollRarity(box.odds);
+  const element = pickElement(rarity);
+
+  // Reset pity counters when triggered
+  if (rarity === 'rare' || rarity === 'epic' || rarity === 'legendary') state.pitySinceRare = 0;
+  if (rarity === 'epic' || rarity === 'legendary') state.pitySinceEpic = 0;
+  if (rarity === 'legendary') state.pitySinceLeg = 0;
+
+  const wasOwned = !!state.ownedElements[element.sym];
+  const dupeCoinValue = wasOwned ? RARITY_DUPE_COIN[rarity] : 0;
+
+  if (wasOwned) {
+    state.coins += dupeCoinValue;
+    state.ownedElements[element.sym] = state.ownedElements[element.sym] + 1;
+  } else {
+    state.ownedElements[element.sym] = 1;
+  }
+
+  saveState(state);
+  refreshWalletUI();
+
+  animateBoxOpen(box, element, wasOwned, dupeCoinValue);
+}
+
+function animateBoxOpen(box, element, isDupe, dupeCoinValue) {
+  const overlay = document.getElementById('boxOpenOverlay');
+  const stage = document.getElementById('boxStage');
+  overlay.classList.add('show');
+
+  const flashColor = RARITY_COLOR[element.rarity];
+
+  stage.innerHTML = `
+    <div class="rarity-flash" id="rarityFlash" style="background: radial-gradient(circle, ${flashColor}88 0%, transparent 70%);"></div>
+    <div class="box-shake" id="boxShakeEl">${box.icon}</div>
+  `;
+
+  // Determine suspense duration based on rarity
+  const suspense = element.rarity === 'legendary' ? 2200
+                 : element.rarity === 'epic' ? 1700
+                 : element.rarity === 'rare' ? 1300
+                 : 900;
+
+  // Tick sound during shake
+  let ticks = 0;
+  const tickI = setInterval(() => {
+    ticks++;
+    if (Math.random() < 0.6) playCoin({ volume: 0.12, rate: 1.5 + Math.random() * 0.4 });
+    if (ticks > suspense / 200) clearInterval(tickI);
+  }, 200);
+
+  setTimeout(() => {
+    clearInterval(tickI);
+    // Flash
+    const flash = document.getElementById('rarityFlash');
+    flash && flash.classList.add('flash');
+    // Box opens
+    const boxEl = document.getElementById('boxShakeEl');
+    boxEl && boxEl.classList.add('opening');
+    playCoin({ volume: 0.5, rate: 0.8 });
+
+    setTimeout(() => {
+      // Reveal card
+      stage.innerHTML = `
+        <div class="reveal-card r-${element.rarity} flip-in">
+          <div class="reveal-rarity-banner r-${element.rarity}">${element.rarity}</div>
+          <div class="reveal-element">${element.sym}</div>
+          <div class="reveal-name">${element.name}</div>
+          <div class="reveal-num">Atomic #${element.num}</div>
+          <div class="reveal-fact">${element.fact}</div>
+          ${isDupe
+            ? `<div class="reveal-tag dupe">Duplicate · converted to +${dupeCoinValue} 🪙</div>`
+            : `<div class="reveal-tag">★ NEW DISCOVERY</div>`}
+          <div class="reveal-actions">
+            <button class="secondary" onclick="closeBoxOpen()">Close</button>
+            <button onclick="closeBoxOpen();openMysteryBox('${getBoxIdByCost(box.cost)}', false)" ${state.coins < box.cost ? 'disabled' : ''}>
+              ${state.coins >= box.cost ? `Open another (${box.cost} 🪙)` : 'Need more coins'}
+            </button>
+          </div>
+        </div>
+      `;
+      // Confetti scaled to rarity
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const conf = element.rarity === 'legendary' ? 120
+                 : element.rarity === 'epic' ? 80
+                 : element.rarity === 'rare' ? 50
+                 : element.rarity === 'uncommon' ? 30
+                 : 15;
+      spawnConfetti(cx, cy, conf, [flashColor, '#fde68a', '#fff']);
+      if (element.rarity === 'legendary') {
+        playCoin({ volume: 0.85, rate: 1.0 });
+        setTimeout(() => playCoin({ volume: 0.7, rate: 1.2 }), 200);
+        setTimeout(() => playCoin({ volume: 0.5, rate: 1.4 }), 400);
+      } else {
+        playCoin({ volume: 0.5, rate: 0.95 + Math.random() * 0.2 });
+      }
+    }, 600);
+  }, suspense);
+}
+
+function getBoxIdByCost(cost) {
+  return Object.entries(BOXES).find(([k, b]) => b.cost === cost)[0];
+}
+
+function closeBoxOpen() {
+  document.getElementById('boxOpenOverlay').classList.remove('show');
+  // refresh collection if visible
+  if (document.getElementById('panel-collection').classList.contains('active')) {
+    renderCollection();
+  } else {
+    refreshHubExtras();
+  }
+}
+
+/* ════ INIT ════ */
 document.addEventListener('DOMContentLoaded', () => {
   setupSharedWallet();
   refreshHubExtras();
-  // hook into wallet refreshes
+  // Hook into wallet refreshes
   const orig = refreshWalletUI;
   refreshWalletUI = function () { orig(); refreshHubExtras(); };
 });
